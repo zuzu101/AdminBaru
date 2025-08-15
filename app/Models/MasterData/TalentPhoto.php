@@ -5,7 +5,7 @@ namespace App\Models\MasterData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProfessionalCategory extends Model
+class TalentPhoto extends Model
 {
     use HasFactory;
 
@@ -13,7 +13,6 @@ class ProfessionalCategory extends Model
 
     public function talent()
     {
-        return $this->belongsToMany(Talent::class, 'talent_professionals', 'professional_category_id', 'talent_id')
-                    ->using(TalentProfessional::class);
+        return $this->belongsTo(Talent::class);
     }
 }

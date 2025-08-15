@@ -5,15 +5,14 @@ namespace App\Models\MasterData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ArtCategory extends Model
+class Category extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
 
-    public function talent()
+    public function talents()
     {
-        return $this->belongsToMany(Talent::class, 'talent_art', 'art_category_id', 'talent_id')
-                    ->using(TalentArt::class);
+        return $this->belongsToMany(Talent::class, 'category_talent');
     }
 }

@@ -20,6 +20,7 @@ use App\Http\Controllers\Back\MasterData\ArtCategoryController;
 use App\Http\Controllers\Back\MasterData\CandidateTalentController;
 use App\Http\Controllers\Back\MasterData\CategoryController;
 use App\Http\Controllers\Back\MasterData\MemberController;
+use App\Http\Controllers\Back\MasterData\PelangganController;
 use App\Http\Controllers\Back\MasterData\ProfessionalCategoryController;
 use App\Http\Controllers\Back\MasterData\TalentCategoryController;
 use App\Http\Controllers\Back\MasterData\TalentController;
@@ -179,6 +180,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::resource('members', MemberController::class)->except('show');
             Route::group(['prefix' => 'members', 'as' => 'members.'], function () {
                 Route::post('data', [MemberController::class, 'data'])->name('data');
+            });
+
+            Route::resource('pelanggan', PelangganController::class)->except('show');
+            Route::group(['prefix' => 'pelanggan', 'as' => 'pelanggan.'], function () {
+                Route::post('data', [PelangganController::class, 'data'])->name('data');
             });
         });
 

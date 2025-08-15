@@ -57,7 +57,7 @@
 <body>
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
         <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">
-            <i class="fas fa-tachometer-alt"></i> Binco Talent Admin
+            <i class="fas fa-tachometer-alt"></i> Service Admin
         </a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
             <span class="navbar-toggler-icon"></span>
@@ -82,7 +82,7 @@
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('admin.cms.newsrooms.*') ? 'active' : '' }}" 
                                href="{{ route('admin.cms.newsrooms.index') }}">
-                                <i class="fas fa-newspaper"></i> Newsrooms
+                                <i class="fas fa-newspaper"></i> newsrooms
                             </a>
                         </li>
                         <li class="nav-item">
@@ -95,6 +95,12 @@
                             <a class="nav-link {{ request()->routeIs('admin.cms.contacts.*') ? 'active' : '' }}" 
                                href="{{ route('admin.cms.contacts.index') }}">
                                 <i class="fas fa-envelope"></i> Contacts
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.master_data.pelanggan.*') ? 'active' : '' }}" 
+                               href="{{ route('admin.master_data.pelanggan.index') }}">
+                                <i class="fas fa-users"></i> Pelanggan
                             </a>
                         </li>
                         <hr>

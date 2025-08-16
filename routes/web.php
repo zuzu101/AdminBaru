@@ -121,10 +121,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
                 Route::get('contacts', [ContactController::class, 'index'])->name('index');
                 Route::post('data', [ContactController::class, 'data'])->name('data');
             });
+
+            Route::resource('pelanggan', pelangganController::class)->except('show');
             Route::group(['prefix' => 'pelanggan', 'as' => 'pelanggan.'], function () {
-                Route::get('/', [pelangganController::class, 'index'])->name('index');
                 Route::post('data', [pelangganController::class, 'data'])->name('data');
             });
+
         });
 
         Route::group(['prefix' => 'master_data', 'as' => 'master_data.'], function () {

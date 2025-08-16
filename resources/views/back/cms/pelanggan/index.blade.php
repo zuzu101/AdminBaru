@@ -4,11 +4,11 @@
 <header class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1>Newsroom</h1>
+            <h1>Data Pelanggan</h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item active">Newsroom</li>
+                <li class="breadcrumb-item active">Pelanggan</li>
             </ol>
         </div>
     </div>
@@ -20,7 +20,7 @@
     <article class="card-header">
         <div class="float-right">
             <div class="btn-group">
-                <a href="{{ route('admin.cms.newsrooms.create') }}" class="btn btn-success"><i class="fa fa-plus"></i></a>
+                <a href="{{ route('admin.cms.pelanggan.create') }}" class="btn btn-success"><i class="fa fa-plus"></i> Tambah Pelanggan</a>
             </div>
         </div>
     </article>
@@ -30,10 +30,11 @@
                 <tr>
                     <th>No.</th>
                     <th>Nama</th>
-                    <th>No. HP</th>
                     <th>Email</th>
+                    <th>No. HP</th>
                     <th>Alamat</th>
-                    <th>action</th>
+                    <th>Status</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -61,13 +62,29 @@
             columns: [
                 { data: 'no', name: 'no', className: "text-center align-middle" },
                 { data: 'name', name: 'name', className: "align-middle" },
-                { data: 'phone', name: 'phone', className: "align-middle" },
                 { data: 'email', name: 'email', className: "align-middle" },
+                { data: 'phone', name: 'phone', className: "align-middle" },
                 { data: 'address', name: 'address', className: "align-middle" },
-                { data: 'actions', name: 'actions', className: "align-middle", sortable: false },
-
+                { data: 'status', name: 'status', className: "align-middle" },
+                { data: 'actions', name: 'actions', className: "align-middle", sortable: false, searchable: false },
             ]
         });
     });
+
+    function deletePelanggan(id) {
+        if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+            $.ajax({
+                url: "{{ route('admin.cms.pelanggan.index') }}/" + id,
+                method: 'DELETE',
+                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+                success: function(response) {
+                    if (response.success) {
+                        alert('Data berhasil dihapus');
+                        $('#datatable').DataTable().ajax.reload();
+                    }
+                }
+            });
+        }
+    }
 </script>
 @endpush

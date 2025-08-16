@@ -25,9 +25,10 @@ class UpdatepelangganRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'position' => 'required',
-            'image' => 'nullable',
-            'description' => 'required',
+            'phone' => 'required',
+            'email' => 'required',
+            'address' => 'required',
+            'status' => 'required'
         ];
     }
 }

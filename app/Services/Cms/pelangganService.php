@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\MasterData;
+namespace App\Services\Cms;
 
 use App\Helpers\ErrorHandling;
 use App\Http\Requests\Cms\UpdatepelangganRequest;

@@ -98,8 +98,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.master_data.pelanggan.*') ? 'active' : '' }}" 
-                               href="{{ route('admin.master_data.pelanggan.index') }}">
+                            <a class="nav-link {{ request()->routeIs('admin.cms.pelanggan.*') ? 'active' : '' }}" 
+                               href="{{ route('admin.cms.pelanggan.index') }}">
                                 <i class="fas fa-users"></i> Pelanggan
                             </a>
                         </li>

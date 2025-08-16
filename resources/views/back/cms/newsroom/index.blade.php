@@ -29,11 +29,9 @@
             <thead>
                 <tr>
                     <th>No.</th>
-                    <th>Nama</th>
-                    <th>No. HP</th>
-                    <th>Email</th>
-                    <th>Alamat</th>
-                    <th>action</th>
+                    <th>Judul</th>
+                    <th>Gambar</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -59,11 +57,9 @@
                 type: "POST"
             },
             columns: [
-                { data: 'no', name: 'no', className: "text-center align-middle" },
-                { data: 'Nama', name: 'Nama', className: "align-middle" },
-                { data: 'No. HP', name: 'No. HP', className: "align-middle" },
-                { data: 'Email', name: 'Email', className: "align-middle" },
-                { data: 'Alamat', name: 'Alamat', className: "align-middle" },
+                { data: 'no', name: 'no', className: "text-center align-middle"},
+                { data: 'title', name: 'title', className: "align-middle" },
+                { data: 'image', name: 'position', className: "align-middle" },
                 { data: 'actions', name: 'actions', className: "align-middle", sortable: false },
             ]
         });

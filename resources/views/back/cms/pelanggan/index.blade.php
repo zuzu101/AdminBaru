@@ -54,17 +54,18 @@
             pagingType: "simple_numbers",
             ajax: {
                 headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-                url: "{{ route('admin.cms.newsrooms.data') }}",
+                url: "{{ route('admin.cms.pelanggan.data') }}",
                 dataType: "json",
                 type: "POST"
             },
             columns: [
                 { data: 'no', name: 'no', className: "text-center align-middle" },
-                { data: 'Nama', name: 'Nama', className: "align-middle" },
-                { data: 'No. HP', name: 'No. HP', className: "align-middle" },
-                { data: 'Email', name: 'Email', className: "align-middle" },
-                { data: 'Alamat', name: 'Alamat', className: "align-middle" },
+                { data: 'name', name: 'name', className: "align-middle" },
+                { data: 'phone', name: 'phone', className: "align-middle" },
+                { data: 'email', name: 'email', className: "align-middle" },
+                { data: 'address', name: 'address', className: "align-middle" },
                 { data: 'actions', name: 'actions', className: "align-middle", sortable: false },
+
             ]
         });
     });

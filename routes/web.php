@@ -14,13 +14,13 @@ use App\Http\Controllers\Auth\Talent\LoginController as TalentLoginController;
 use App\Http\Controllers\Back\Cms\ContactController;
 use App\Http\Controllers\Back\Cms\FounderController;
 use App\Http\Controllers\Back\Cms\NewsroomController;
+use App\Http\Controllers\Back\Cms\pelangganController;
 use App\Http\Controllers\Back\Ecommerce\BookingController;
 use App\Http\Controllers\Back\Ecommerce\ScheduleController;
 use App\Http\Controllers\Back\MasterData\ArtCategoryController;
 use App\Http\Controllers\Back\MasterData\CandidateTalentController;
 use App\Http\Controllers\Back\MasterData\CategoryController;
 use App\Http\Controllers\Back\MasterData\MemberController;
-use App\Http\Controllers\Back\MasterData\PelangganController;
 use App\Http\Controllers\Back\MasterData\ProfessionalCategoryController;
 use App\Http\Controllers\Back\MasterData\TalentCategoryController;
 use App\Http\Controllers\Back\MasterData\TalentController;
@@ -121,6 +121,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
                 Route::get('contacts', [ContactController::class, 'index'])->name('index');
                 Route::post('data', [ContactController::class, 'data'])->name('data');
             });
+            Route::group(['prefix' => 'pelanggan', 'as' => 'pelanggan.'], function () {
+                Route::get('/', [pelangganController::class, 'index'])->name('index');
+                Route::post('data', [pelangganController::class, 'data'])->name('data');
+            });
         });
 
         Route::group(['prefix' => 'master_data', 'as' => 'master_data.'], function () {
@@ -180,11 +184,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::resource('members', MemberController::class)->except('show');
             Route::group(['prefix' => 'members', 'as' => 'members.'], function () {
                 Route::post('data', [MemberController::class, 'data'])->name('data');
-            });
-
-            Route::resource('pelanggan', PelangganController::class)->except('show');
-            Route::group(['prefix' => 'pelanggan', 'as' => 'pelanggan.'], function () {
-                Route::post('data', [PelangganController::class, 'data'])->name('data');
             });
         });
 

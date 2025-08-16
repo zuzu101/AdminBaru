@@ -9,5 +9,17 @@ class pelanggan extends Model
 {
     use HasFactory;
 
+    protected $table = 'pelanggan';
     protected $guarded = ['id'];
+    
+    // Tambahkan fillable untuk field bahasa Inggris
+    protected $fillable = [
+        'name', 
+        'email', 
+        'phone', 
+        'address', 
+        'birth_date', 
+        'gender', 
+        'status'
+    ];
 }

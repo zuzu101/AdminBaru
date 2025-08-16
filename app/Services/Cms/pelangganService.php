@@ -38,30 +38,33 @@ class pelangganService
         }
     }
 
-    public function data(object $pelanggan)
+    public function detail($id)
     {
-        $array = $pelanggan->get(['id', 'name' , 'phone', 'email', 'address']);
+        return pelanggan::findOrFail($id);
+    }
 
-        $data = [];
-        $no = 0;
+    public function data()
+    {
+        $pelanggan = pelanggan::query();
 
-        foreach ($array as $item) {
-            $no++;
-            $nestedData['no'] = $no;
-            $nestedData['name'] = $item->name;
-            $nestedData['phone'] = $item->phone;
-            $nestedData['email'] = $item->email;
-            $nestedData['address'] = $item->address;
-            $nestedData['actions'] = '
-                <div class="btn-group">
-                    <a href="' . route('admin.master_data.pelanggan.edit', $item) . '" class="btn btn-outline-warning "><i class="fa fa-edit"></i></a>
-                    <a href="' . route('admin.master_data.pelanggan.destroy', $item) . '" class="btn btn-outline-danger btn-delete"><i class="fa fa-trash"></i></a>
-                </div>
-            ';
-
-            $data[] = $nestedData;
-        }
-
-        return DataTables::of($data)->rawColumns(["actions"])->toJson();
+        return DataTables::of($pelanggan)
+            ->addIndexColumn()
+            ->addColumn('no', function($row) {
+                static $no = 0;
+                return ++$no;
+            })
+            ->addColumn('status', function($row) {
+                return $row->status ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Inactive</span>';
+            })
+            ->addColumn('actions', function($row) {
+                return '
+                    <div class="btn-group">
+                        <a href="' . route('admin.cms.pelanggan.edit', $row->id) . '" class="btn btn-outline-warning btn-sm"><i class="fa fa-edit"></i></a>
+                        <button onclick="deletePelanggan(' . $row->id . ')" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button>
+                    </div>
+                ';
+            })
+            ->rawColumns(['actions', 'status'])
+            ->make(true);
     }
 }

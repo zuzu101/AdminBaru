@@ -22,4 +22,10 @@ class pelanggan extends Model
         'gender', 
         'status'
     ];
+
+    // Relationship - hasOne device repair
+    public function deviceRepair()
+    {
+        return $this->hasOne(\App\Models\Cms\DeviceRepair::class, 'pelanggan_id');
+    }
 }

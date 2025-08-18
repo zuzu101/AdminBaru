@@ -103,6 +103,18 @@
                                 <i class="fas fa-users"></i> Pelanggan
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.cms.DeviceRepair.*') ? 'active' : '' }}" 
+                               href="{{ route('admin.cms.DeviceRepair.index') }}">
+                                <i class="fas fa-tools"></i> Device Repair
+                            </a>
+                            <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.cms.Status.*') ? 'active' : '' }}" 
+                               href="{{ route('admin.cms.Status.index') }}">
+                                <i class="fas fa-tools"></i> Status
+                            </a>
+                        <hr>
+
                         <hr>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('admin.master_data.talents.*') ? 'active' : '' }}" 

@@ -15,6 +15,8 @@ use App\Http\Controllers\Back\Cms\ContactController;
 use App\Http\Controllers\Back\Cms\FounderController;
 use App\Http\Controllers\Back\Cms\NewsroomController;
 use App\Http\Controllers\Back\Cms\pelangganController;
+use App\Http\Controllers\Back\Cms\DeviceRepairController;
+use App\Http\Controllers\Back\Cms\StatusController;
 use App\Http\Controllers\Back\Ecommerce\BookingController;
 use App\Http\Controllers\Back\Ecommerce\ScheduleController;
 use App\Http\Controllers\Back\MasterData\ArtCategoryController;
@@ -125,6 +127,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::resource('pelanggan', pelangganController::class)->except('show');
             Route::group(['prefix' => 'pelanggan', 'as' => 'pelanggan.'], function () {
                 Route::post('data', [pelangganController::class, 'data'])->name('data');
+            });
+
+            Route::resource('DeviceRepair', DeviceRepairController::class)->except('show')->parameters(['DeviceRepair' => 'deviceRepair']);
+            Route::group(['prefix' => 'DeviceRepair', 'as' => 'DeviceRepair.'], function () {
+                Route::post('data', [DeviceRepairController::class, 'data'])->name('data');
+            });
+
+            Route::resource('Status', StatusController::class)->except('show')->parameters(['Status' => 'status']);
+            Route::group(['prefix' => 'Status', 'as' => 'Status.'], function () {
+                Route::post('data', [StatusController::class, 'data'])->name('data');
             });
 
         });

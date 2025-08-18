@@ -70,7 +70,7 @@
                                 <option value="Perangkat Baru Masuk" {{ $deviceRepair->status == 'Perangkat Baru Masuk' ? 'selected' : '' }}>Perangkat Baru Masuk</option>
                                 <option value="Sedang Diperbaiki" {{ $deviceRepair->status == 'Sedang Diperbaiki' ? 'selected' : '' }}>Sedang Diperbaiki</option>
                                 <option value="Menunggu Spare Part" {{ $deviceRepair->status == 'Menunggu Spare Part' ? 'selected' : '' }}>Menunggu Spare Part</option>
-                                <option value="Selesai Diperbaiki" {{ $deviceRepair->status == 'Selesai Diperbaiki' ? 'selected' : '' }}>Selesai Diperbaiki</option>
+                                <option value="Selesai" {{ $deviceRepair->status == 'Selesai' ? 'selected' : '' }}>Selesai</option>
                                 <option value="Siap Diambil" {{ $deviceRepair->status == 'Siap Diambil' ? 'selected' : '' }}>Siap Diambil</option>
                                 <option value="Sudah Diambil" {{ $deviceRepair->status == 'Sudah Diambil' ? 'selected' : '' }}>Sudah Diambil</option>
                             </select>

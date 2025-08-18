@@ -91,4 +91,12 @@ class DeviceRepairController extends Controller
     {
         return $this->deviceRepairService->data($deviceRepair);
     }
+
+    //function to update device repair status
+    public function updateDeviceRepairStatus(Request $request, DeviceRepair $deviceRepair)
+    {
+        $deviceRepair->update(['status' => $request->status]);
+
+        return response()->json(['message' => "Status berhasil diperbarui"], 200);
+    }
 }

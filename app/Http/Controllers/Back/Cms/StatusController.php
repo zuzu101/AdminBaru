@@ -87,8 +87,14 @@ class StatusController extends Controller
         return response()->json(['message' => "Data berhasil dihapus"],200);
     }
 
-    public function data(Status $status)
+    public function data(Status $status, Request $request)
     {
-        return $this->statusService->data($status);
+        return $this->statusService->data($status, $request);
+    }
+    public function updateStatus(Request $request, Status $status)
+    {
+        $status->update(['status' => $request->status]);
+
+        return response()->json(['message' => "Status berhasil diperbarui"], 200);
     }
 }

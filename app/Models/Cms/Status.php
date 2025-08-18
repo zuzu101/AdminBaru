@@ -18,7 +18,8 @@ class Status extends Model
         'model', 
         'reported_issue',
         'serial_number',
-        'technician_note'
+        'technician_note',
+        'status'
     ];
 
     // Cast attributes to appropriate types

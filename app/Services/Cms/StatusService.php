@@ -44,9 +44,16 @@ class StatusService
         }
     }
 
-    public function data(object $deviceRepair)
+    public function data(object $status, $request = null)
     {
-        $array = $deviceRepair->with('pelanggan')->get(['id', 'pelanggan_id', 'brand', 'model', 'reported_issue', 'serial_number', 'technician_note']);
+        $query = $status->with('pelanggan');
+        
+        // Apply status filter if provided
+        if ($request && $request->has('status_filter') && $request->status_filter != '') {
+            $query->where('status', $request->status_filter);
+        }
+        
+        $array = $query->get(['id', 'pelanggan_id', 'brand', 'model', 'reported_issue', 'serial_number', 'technician_note', 'status']);
 
         $data = [];
         $no = 0;
@@ -60,10 +67,11 @@ class StatusService
             $nestedData['reported_issue'] = $item->reported_issue;
             $nestedData['serial_number'] = $item->serial_number;
             $nestedData['technician_note'] = $item->technician_note ?: '-';
+            $nestedData['status'] = $item->status ?: 'Perangkat Baru Masuk';
             $nestedData['actions'] = '
                 <div class="btn-group">
-                    <a href="' . route('admin.cms.DeviceRepair.edit', $item) . '" class="btn btn-outline-warning "><i class="fa fa-edit"></i></a>
-                    <a href="javascript:void(0)" onclick="deleteDeviceRepair(' . $item->id . ')" class="btn btn-outline-danger"><i class="fa fa-trash"></i></a>
+                    <a href="javascript:void(0)" onclick="updateStatus(' . $item->id . ', \'Sedang Diperbaiki\')" class="btn btn-outline-info"><i class="fa fa-cog"></i></a>
+                    <a href="javascript:void(0)" onclick="updateStatus(' . $item->id . ', \'Selesai\')" class="btn btn-outline-success"><i class="fa fa-check"></i></a>
                 </div>
             ';
 

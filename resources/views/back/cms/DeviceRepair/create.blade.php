@@ -67,7 +67,7 @@
                                 <option value="Perangkat Baru Masuk">Perangkat Baru Masuk</option>
                                 <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
                                 <option value="Menunggu Spare Part">Menunggu Spare Part</option>
-                                <option value="Selesai Diperbaiki">Selesai Diperbaiki</option>
+                                <option value="Selesai">Selesai</option>
                                 <option value="Siap Diambil">Siap Diambil</option>
                                 <option value="Sudah Diambil">Sudah Diambil</option>
                             </select>

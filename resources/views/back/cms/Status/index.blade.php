@@ -17,6 +17,16 @@
 
 @section('content')
 <section class="card">
+    <article class="card-header">
+        <div class="float-right">
+            <div class="btn-group">
+                <button type="button" class="btn btn-danger fw-bold" onclick="filterStatus('Perangkat Baru Masuk')">Baru</button>
+                <button type="button" class="btn btn-primary fw-bold" onclick="filterStatus('Sedang Diperbaiki')">Dikerjakan</button>
+                <button type="button" class="btn btn-success fw-bold" onclick="filterStatus('Selesai')">Selesai</button>
+                <button type="button" class="btn btn-secondary fw-bold" onclick="filterStatus('all')">Semua</button>
+            </div>
+        </div>
+    </article>
     <article class="card-body">
         <table class="table table-striped table-bordered" id="datatable">
             <thead>
@@ -40,8 +50,10 @@
 
 @push('js')
 <script>
+    let dataTable;
+    
     $(function() {
-        $('#datatable').DataTable({
+        dataTable = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
@@ -50,11 +62,13 @@
             pagingType: "simple_numbers",
             ajax: {
                 headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-                url: "{{ route('admin.cms.DeviceRepair.data') }}",
+                url: "{{ route('admin.cms.Status.data') }}",
                 dataType: "json",
-                type: "POST"
+                type: "POST",
+                data: function(d) {
+                    d.status_filter = $('#status_filter').val();
+                }
             },
-            //column for DeviceRepair
             columns: [
                 { data: 'no', name: 'no', className: "text-center align-middle" },
                 { data: 'pelanggan_name', name: 'pelanggan_name', className: "align-middle" },
@@ -69,20 +83,59 @@
         });
     });
 
-    function deleteDeviceRepair(id) {
+    function filterStatus(status) {
+        // Set nilai filter
+        if (!$('#status_filter').length) {
+            $('body').append('<input type="hidden" id="status_filter" value="">');
+        }
+        
+        $('#status_filter').val(status === 'all' ? '' : status);
+        
+        // Update button aktif
+        $('.btn-group button').removeClass('active');
+        $('button[onclick="filterStatus(\'' + status + '\')"]').addClass('active');
+        
+        // Reload DataTable dengan filter baru
+        dataTable.ajax.reload();
+    }
+
+    function deleteStatus(id) {
         if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
             $.ajax({
-                url: "{{ route('admin.cms.DeviceRepair.index') }}/" + id,
+                url: "{{ route('admin.cms.Status.index') }}/" + id,
                 method: 'DELETE',
                 headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
                 success: function(response) {
                     if (response.message) {
                         alert('Data berhasil dihapus');
-                        $('#datatable').DataTable().ajax.reload();
+                        dataTable.ajax.reload();
                     }
                 },
                 error: function(xhr) {
                     alert('Error saat menghapus data');
+                }
+            });
+        }
+    }
+    
+    function updateStatus(id, status) {
+        if (confirm('Apakah Anda yakin ingin mengubah status perangkat ini ke "' + status + '"?')) {
+            $.ajax({
+                url: "{{ route('admin.cms.Status.index') }}/" + id + '/update-status',
+                method: 'POST',
+                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+                data: {
+                    status: status
+                },
+                success: function(response) {
+                    if (response.message) {
+                        alert('Status berhasil diperbarui');
+                        dataTable.ajax.reload();
+                    }
+                },
+                error: function(xhr) {
+                    alert('Error saat memperbarui status');
+                    console.log(xhr.responseText);
                 }
             });
         }

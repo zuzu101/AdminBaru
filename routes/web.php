@@ -132,11 +132,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::resource('DeviceRepair', DeviceRepairController::class)->except('show')->parameters(['DeviceRepair' => 'deviceRepair']);
             Route::group(['prefix' => 'DeviceRepair', 'as' => 'DeviceRepair.'], function () {
                 Route::post('data', [DeviceRepairController::class, 'data'])->name('data');
+                Route::post('{deviceRepair}/update-status', [DeviceRepairController::class, 'updateDeviceRepairStatus'])->name('updateStatus');
             });
 
             Route::resource('Status', StatusController::class)->except('show')->parameters(['Status' => 'status']);
             Route::group(['prefix' => 'Status', 'as' => 'Status.'], function () {
                 Route::post('data', [StatusController::class, 'data'])->name('data');
+                Route::post('{status}/update-status', [StatusController::class, 'updateStatus'])->name('updateStatus');
             });
 
         });

@@ -29,8 +29,8 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="pelanggan_id">Pelanggan</label>
-                            <select name="pelanggan_id" class="form-control" required>
-                                <option value="">Pilih Pelanggan</option>
+                            <select name="pelanggan_id" id="pelanggan_id" class="form-control select2" required>
+                                <option value="">Ketik nama pelanggan...</option>
                                 @foreach(\App\Models\Cms\Pelanggan::all() as $pelanggan)
                                     <option value="{{ $pelanggan->id }}" {{ $deviceRepair->pelanggan_id == $pelanggan->id ? 'selected' : '' }}>
                                         {{ $pelanggan->name }}
@@ -69,10 +69,7 @@
                             <select name="status" class="form-control" required>
                                 <option value="Perangkat Baru Masuk" {{ $deviceRepair->status == 'Perangkat Baru Masuk' ? 'selected' : '' }}>Perangkat Baru Masuk</option>
                                 <option value="Sedang Diperbaiki" {{ $deviceRepair->status == 'Sedang Diperbaiki' ? 'selected' : '' }}>Sedang Diperbaiki</option>
-                                <option value="Menunggu Spare Part" {{ $deviceRepair->status == 'Menunggu Spare Part' ? 'selected' : '' }}>Menunggu Spare Part</option>
                                 <option value="Selesai" {{ $deviceRepair->status == 'Selesai' ? 'selected' : '' }}>Selesai</option>
-                                <option value="Siap Diambil" {{ $deviceRepair->status == 'Siap Diambil' ? 'selected' : '' }}>Siap Diambil</option>
-                                <option value="Sudah Diambil" {{ $deviceRepair->status == 'Sudah Diambil' ? 'selected' : '' }}>Sudah Diambil</option>
                             </select>
                         </div>
 
@@ -101,6 +98,14 @@
 @push('js')
   <script>
     $(document).ready(function() {
+        // Initialize Select2 for pelanggan field
+        $('#pelanggan_id').select2({
+            placeholder: 'Ketik nama pelanggan...',
+            allowClear: true,
+            width: '100%',
+            theme: 'bootstrap-5'
+        });
+
         $('#form-validation').validate({
             rules: {},
             errorElement: 'span',

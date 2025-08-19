@@ -28,8 +28,8 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="pelanggan_id">Pelanggan</label>
-                            <select name="pelanggan_id" class="form-control" required>
-                                <option value="">Pilih Pelanggan</option>
+                            <select name="pelanggan_id" id="pelanggan_id" class="form-control select2" required>
+                                <option value="">Ketik nama pelanggan...</option>
                                 @foreach(\App\Models\Cms\Pelanggan::all() as $pelanggan)
                                     <option value="{{ $pelanggan->id }}">{{ $pelanggan->name }}</option>
                                 @endforeach
@@ -66,10 +66,7 @@
                             <select name="status" class="form-control" required>
                                 <option value="Perangkat Baru Masuk">Perangkat Baru Masuk</option>
                                 <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
-                                <option value="Menunggu Spare Part">Menunggu Spare Part</option>
                                 <option value="Selesai">Selesai</option>
-                                <option value="Siap Diambil">Siap Diambil</option>
-                                <option value="Sudah Diambil">Sudah Diambil</option>
                             </select>
                         </div>
 
@@ -98,6 +95,14 @@
 @push('js')
   <script>
     $(document).ready(function() {
+        // Initialize Select2 for pelanggan field
+        $('#pelanggan_id').select2({
+            placeholder: 'Ketik nama pelanggan...',
+            allowClear: true,
+            width: '100%',
+            theme: 'bootstrap-5'
+        });
+
         $('#form-validation').validate({
             rules: {},
             errorElement: 'span',

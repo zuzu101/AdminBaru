@@ -13,6 +13,7 @@ class DeviceRepair extends Model
     protected $guarded = ['id'];
     
     protected $fillable = [
+        'nota_number',
         'pelanggan_id',
         'brand',
         'model', 

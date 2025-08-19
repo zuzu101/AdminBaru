@@ -19,13 +19,17 @@ class DeviceRepair extends Model
         'reported_issue',
         'serial_number',
         'technician_note',
-        'status'
+        'status',
+        'price',
+        'complete_in'
     ];
 
     // Cast attributes to appropriate types
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'complete_in' => 'date',
+        'price' => 'decimal:2'
     ];
 
     // Relationship

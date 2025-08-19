@@ -45,7 +45,7 @@ class pelangganService
 
     public function data()
     {
-        $pelanggan = pelanggan::query();
+        $pelanggan = pelanggan::query()->orderBy('id', 'desc');
 
         return DataTables::of($pelanggan)
             ->addIndexColumn()

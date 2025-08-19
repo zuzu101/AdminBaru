@@ -75,6 +75,16 @@
                                 <option value="Sudah Diambil" {{ $deviceRepair->status == 'Sudah Diambil' ? 'selected' : '' }}>Sudah Diambil</option>
                             </select>
                         </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="price">Estimasi Biaya</label>
+                            <input type="number" name="price" value="{{ $deviceRepair->price }}" class="form-control" min="0" step="0.01" placeholder="0.00">
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="complete_in">Target Selesai</label>
+                            <input type="date" name="complete_in" value="{{ $deviceRepair->complete_in ? $deviceRepair->complete_in->format('Y-m-d') : '' }}" class="form-control">
+                        </div>
                     </div>
                 </div>
 

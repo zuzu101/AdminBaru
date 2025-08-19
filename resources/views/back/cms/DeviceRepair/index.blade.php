@@ -35,6 +35,9 @@
                     <th>Masalah</th>
                     <th>Nomor Seri</th>
                     <th>Catatan Teknisi</th>
+                    <th>Status</th>
+                    <th>Estimasi Biaya</th>
+                    <th>Target Selesai</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -69,6 +72,9 @@
                 { data: 'reported_issue', name: 'reported_issue', className: "align-middle" },
                 { data: 'serial_number', name: 'serial_number', className: "align-middle" },
                 { data: 'technician_note', name: 'technician_note', className: "align-middle" },
+                { data: 'status', name: 'status', className: "align-middle" },
+                { data: 'price', name: 'price', className: "align-middle text-right" },
+                { data: 'complete_in', name: 'complete_in', className: "align-middle text-center" },
                 { data: 'actions', name: 'actions', className: "align-middle", sortable: false, searchable: false }
             ]
         });

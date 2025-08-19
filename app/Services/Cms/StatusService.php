@@ -46,7 +46,7 @@ class StatusService
 
     public function data(object $status, $request = null)
     {
-        $query = $status->with('pelanggan');
+        $query = $status->with('pelanggan')->orderBy('id', 'desc');
         
         // Apply status filter if provided
         if ($request && $request->has('status_filter') && $request->status_filter != '') {

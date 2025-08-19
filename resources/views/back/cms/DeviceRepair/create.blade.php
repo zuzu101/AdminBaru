@@ -72,6 +72,16 @@
                                 <option value="Sudah Diambil">Sudah Diambil</option>
                             </select>
                         </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="price">Estimasi Biaya</label>
+                            <input type="number" name="price" class="form-control" min="0" step="0.01" placeholder="0.00">
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="complete_in">Target Selesai</label>
+                            <input type="date" name="complete_in" class="form-control">
+                        </div>
                     </div>
                 </div>
 

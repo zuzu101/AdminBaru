@@ -33,7 +33,6 @@
                     <th>Email</th>
                     <th>No. HP</th>
                     <th>Alamat</th>
-                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -65,7 +64,6 @@
                 { data: 'email', name: 'email', className: "align-middle" },
                 { data: 'phone', name: 'phone', className: "align-middle" },
                 { data: 'address', name: 'address', className: "align-middle" },
-                { data: 'status', name: 'status', className: "align-middle" },
                 { data: 'actions', name: 'actions', className: "align-middle", sortable: false, searchable: false },
             ]
         });

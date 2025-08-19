@@ -46,7 +46,7 @@ class DeviceRepairService
 
     public function data(object $deviceRepair)
     {
-        $array = $deviceRepair->with('pelanggan')->get(['id', 'pelanggan_id', 'brand', 'model', 'reported_issue', 'serial_number', 'technician_note', 'status']);
+        $array = $deviceRepair->with('pelanggan')->orderBy('id', 'desc')->get(['id', 'pelanggan_id', 'brand', 'model', 'reported_issue', 'serial_number', 'technician_note', 'status', 'price', 'complete_in']);
 
         $data = [];
         $no = 0;
@@ -61,6 +61,8 @@ class DeviceRepairService
             $nestedData['serial_number'] = $item->serial_number;
             $nestedData['technician_note'] = $item->technician_note ?: '-';
             $nestedData['status'] = $item->status ?: 'Perangkat Baru Masuk';
+            $nestedData['price'] = $item->price ? 'Rp ' . number_format($item->price, 0, ',', '.') : '-';
+            $nestedData['complete_in'] = $item->complete_in ? $item->complete_in->format('d/m/Y') : '-';
             $nestedData['actions'] = '
                 <div class="btn-group">
                     <a href="' . route('admin.cms.DeviceRepair.edit', $item) . '" class="btn btn-outline-warning "><i class="fa fa-edit"></i></a>

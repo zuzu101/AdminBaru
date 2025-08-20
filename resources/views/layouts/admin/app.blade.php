@@ -118,6 +118,12 @@
                                 <i class="fas fa-receipt"></i> Nota
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.cms.Transaction.*') ? 'active' : '' }}" 
+                               href="{{ route('admin.cms.Transaction.index') }}">
+                                <i class="fas fa-exchange-alt"></i> Transaction
+                            </a>
+                        </li>
                         <hr>
                     </ul>
                 </div>

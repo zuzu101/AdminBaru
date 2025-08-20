@@ -14,6 +14,7 @@ use App\Http\Controllers\Back\Cms\pelangganController;
 use App\Http\Controllers\Back\Cms\DeviceRepairController;
 use App\Http\Controllers\Back\Cms\StatusController;
 use App\Http\Controllers\Back\Cms\NotaController;
+use App\Http\Controllers\Back\Cms\TransactionController;
 use App\Http\Controllers\Member\ProfileController as MemberProfileController;
 use App\Http\Controllers\Member\HistoryBookingController as MemberHistoryBookingController;
 use App\Http\Controllers\Talent\ScheduleController as TalentScheduleController;
@@ -120,12 +121,19 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
                 Route::post('{status}/update-status', [StatusController::class, 'updateStatus'])->name('updateStatus');
             });
 
+            Route::resource('Transaction', TransactionController::class)->except('show');
+            Route::group(['prefix' => 'Transaction', 'as' => 'Transaction.'], function () {
+                Route::post('data', [TransactionController::class, 'data'])->name('data');
+            });
+
             Route::resource('Nota', NotaController::class)->only('index');
             Route::group(['prefix' => 'Nota', 'as' => 'Nota.'], function () {
                 Route::post('data', [NotaController::class, 'data'])->name('data');
                 Route::get('{id}/print', [NotaController::class, 'print'])->name('print');
                 Route::get('{id}/pdf', [NotaController::class, 'pdf'])->name('pdf');
             });
+
+            
 
         });
 

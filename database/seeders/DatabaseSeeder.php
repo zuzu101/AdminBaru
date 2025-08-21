@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             ArtCategorySeeder::class,
             ProfessionalCategorySeeder::class,
-            DeviceRepairSeeder::class
+            FullYearDeviceRepairSeeder::class
         ]);
     }
 }

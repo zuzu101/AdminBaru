@@ -14,6 +14,7 @@ use App\Http\Controllers\Back\Cms\pelangganController;
 use App\Http\Controllers\Back\Cms\DeviceRepairController;
 use App\Http\Controllers\Back\Cms\StatusController;
 use App\Http\Controllers\Back\Cms\NotaController;
+use App\Http\Controllers\Back\Cms\ReportController;
 use App\Http\Controllers\Back\Cms\TransactionController;
 use App\Http\Controllers\Member\ProfileController as MemberProfileController;
 use App\Http\Controllers\Member\HistoryBookingController as MemberHistoryBookingController;
@@ -131,6 +132,30 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
                 Route::post('data', [NotaController::class, 'data'])->name('data');
                 Route::get('{id}/print', [NotaController::class, 'print'])->name('print');
                 Route::get('{id}/pdf', [NotaController::class, 'pdf'])->name('pdf');
+            });
+
+            // Report Routes
+            Route::resource('Report', ReportController::class)->only('index');
+            Route::group(['prefix' => 'Report', 'as' => 'Report.'], function () {
+                // Main report pages
+                Route::get('daily', [ReportController::class, 'daily'])->name('daily');
+                Route::get('weekly', [ReportController::class, 'weekly'])->name('weekly');
+                Route::get('monthly', [ReportController::class, 'monthly'])->name('monthly');
+                Route::get('brand', [ReportController::class, 'brand'])->name('brand');
+                Route::get('issue', [ReportController::class, 'issue'])->name('issue');
+                Route::get('history', [ReportController::class, 'history'])->name('history');
+                
+                // Data endpoints
+                Route::post('daily/data', [ReportController::class, 'dailyData'])->name('daily.data');
+                Route::post('weekly/data', [ReportController::class, 'weeklyData'])->name('weekly.data');
+                Route::post('monthly/data', [ReportController::class, 'monthlyData'])->name('monthly.data');
+                Route::post('brand/data', [ReportController::class, 'brandData'])->name('brand.data');
+                Route::post('issue/data', [ReportController::class, 'issueData'])->name('issue.data');
+                Route::post('history/data', [ReportController::class, 'historyData'])->name('history.data');
+                
+                // Export endpoints
+                Route::get('export/pdf', [ReportController::class, 'exportPdf'])->name('export.pdf');
+                Route::get('export/excel', [ReportController::class, 'exportExcel'])->name('export.excel');
             });
 
             

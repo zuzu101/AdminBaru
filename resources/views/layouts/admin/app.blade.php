@@ -124,6 +124,35 @@
                                 <i class="fas fa-exchange-alt"></i> Transaction
                             </a>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.cms.Report.*') ? 'active' : '' }}" 
+                               href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-chart-bar"></i> Laporan & Monitoring
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ route('admin.cms.Report.index') }}">
+                                    <i class="fas fa-tachometer-alt"></i> Dashboard Laporan
+                                </a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.cms.Report.daily') }}">
+                                    <i class="fas fa-calendar-day"></i> Laporan Harian
+                                </a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.cms.Report.weekly') }}">
+                                    <i class="fas fa-calendar-week"></i> Laporan Mingguan
+                                </a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.cms.Report.monthly') }}">
+                                    <i class="fas fa-calendar-alt"></i> Laporan Bulanan
+                                </a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.cms.Report.brand') }}">
+                                    <i class="fas fa-mobile-alt"></i> Laporan per Brand
+                                </a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.cms.Report.history') }}">
+                                    <i class="fas fa-history"></i> Riwayat Semua Transaksi
+                                </a></li>
+                            </ul>
+                        </li>
                         <hr>
                     </ul>
                 </div>

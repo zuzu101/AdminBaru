@@ -37,9 +37,6 @@
                                 <button type="button" id="filter-btn" class="btn btn-primary">
                                     <i class="fas fa-search"></i> Filter
                                 </button>
-                                <button type="button" id="export-pdf" class="btn btn-danger">
-                                    <i class="fas fa-file-pdf"></i> PDF
-                                </button>
                             </div>
                         </div>
                     </form>
@@ -169,12 +166,6 @@ $(function() {
     // Filter button click
     $('#filter-btn').click(function() {
         table.ajax.reload();
-    });
-
-    // Export PDF
-    $('#export-pdf').click(function() {
-        let month = $('#report-month').val();
-        window.open("{{ route('admin.cms.Report.export.pdf') }}?type=monthly&month=" + month, '_blank');
     });
 
     // Month change auto filter

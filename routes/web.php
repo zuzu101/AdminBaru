@@ -152,6 +152,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
                 Route::post('brand/data', [ReportController::class, 'brandData'])->name('brand.data');
                 Route::post('issue/data', [ReportController::class, 'issueData'])->name('issue.data');
                 Route::post('history/data', [ReportController::class, 'historyData'])->name('history.data');
+                Route::post('history/summary', [ReportController::class, 'historySummary'])->name('history.summary');
                 
                 // Export endpoints
                 Route::get('export/pdf', [ReportController::class, 'exportPdf'])->name('export.pdf');

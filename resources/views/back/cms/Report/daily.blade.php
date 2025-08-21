@@ -37,12 +37,6 @@
                                 <button type="button" id="filter-btn" class="btn btn-primary">
                                     <i class="fas fa-search"></i> Filter
                                 </button>
-                                <button type="button" id="export-pdf" class="btn btn-danger">
-                                    <i class="fas fa-file-pdf"></i> PDF
-                                </button>
-                                <button type="button" id="export-excel" class="btn btn-success">
-                                    <i class="fas fa-file-excel"></i> Excel
-                                </button>
                             </div>
                         </div>
                     </form>
@@ -199,17 +193,6 @@ $(function() {
     // Filter button click
     $('#filter-btn').click(function() {
         table.ajax.reload();
-    });
-
-    // Export buttons
-    $('#export-pdf').click(function() {
-        let date = $('#report-date').val();
-        window.open("{{ route('admin.cms.Report.export.pdf') }}?type=daily&date=" + date, '_blank');
-    });
-
-    $('#export-excel').click(function() {
-        let date = $('#report-date').val();
-        window.open("{{ route('admin.cms.Report.export.excel') }}?type=daily&date=" + date, '_blank');
     });
 
     // Date change auto filter

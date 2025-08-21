@@ -37,9 +37,6 @@
                                 <button type="button" id="filter-btn" class="btn btn-primary">
                                     <i class="fas fa-search"></i> Filter
                                 </button>
-                                <button type="button" id="export-pdf" class="btn btn-danger">
-                                    <i class="fas fa-file-pdf"></i> PDF
-                                </button>
                             </div>
                         </div>
                     </form>
@@ -190,12 +187,6 @@ $(function() {
     // Filter button click
     $('#filter-btn').click(function() {
         loadWeeklyData();
-    });
-
-    // Export PDF
-    $('#export-pdf').click(function() {
-        let week = $('#report-week').val();
-        window.open("{{ route('admin.cms.Report.export.pdf') }}?type=weekly&week=" + week, '_blank');
     });
 
     // Week change auto filter

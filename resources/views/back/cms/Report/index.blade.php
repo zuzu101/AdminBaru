@@ -173,7 +173,7 @@
                         </div>
                     </div>
                     <div class="mt-3">
-                        <a href="{{ route('admin.cms.Report.brand') }}" class="btn btn-dark btn-sm">
+                        <a href="{{ route('admin.cms.Report.history') }}" class="btn btn-dark btn-sm">
                             <i class="fas fa-chart-pie"></i> Lihat Analisis
                         </a>
                     </div>
@@ -277,7 +277,7 @@ $(function() {
         processing: true,
         serverSide: true,
         autoWidth: false,
-        pageLength: 25,
+        pageLength: 10,
         scrollX: true,
         ajax: {
             headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},

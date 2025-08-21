@@ -57,12 +57,6 @@
                                 <button type="button" id="reset-btn" class="btn btn-secondary">
                                     <i class="fas fa-undo"></i> Reset
                                 </button>
-                                <button type="button" id="export-pdf" class="btn btn-danger">
-                                    <i class="fas fa-file-pdf"></i> PDF
-                                </button>
-                                <button type="button" id="export-excel" class="btn btn-success">
-                                    <i class="fas fa-file-excel"></i> Excel
-                                </button>
                             </div>
                         </div>
                     </form>
@@ -200,7 +194,7 @@ $(function() {
         processing: true,
         serverSide: true,
         autoWidth: false,
-        pageLength: 25,
+        pageLength: 10,
         scrollX: true,
         ajax: {
             headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
@@ -212,16 +206,6 @@ $(function() {
                 d.brand = $('#brand-filter').val();
                 d.date_from = $('#date-from').val();
                 d.date_to = $('#date-to').val();
-            },
-            dataSrc: function(json) {
-                // Update summary cards
-                if (json.summary) {
-                    $('#total-transactions').text(json.summary.total_transactions);
-                    $('#completed-transactions').text(json.summary.completed_transactions);
-                    $('#pending-transactions').text(json.summary.pending_transactions);
-                    $('#total-revenue').text(json.summary.total_revenue);
-                }
-                return json.data;
             }
         },
         columns: [
@@ -245,9 +229,32 @@ $(function() {
         order: [[2, 'desc']] // Order by created_date descending
     });
 
+    // Update summary cards
+    function updateSummary() {
+        let params = {
+            status: $('#status-filter').val(),
+            brand: $('#brand-filter').val(),
+            date_from: $('#date-from').val(),
+            date_to: $('#date-to').val(),
+            _token: '{{ csrf_token() }}'
+        };
+
+        $.post("{{ route('admin.cms.Report.history.summary') }}", params)
+        .done(function(response) {
+            $('#total-transactions').text(response.total_transactions);
+            $('#completed-transactions').text(response.completed_transactions);
+            $('#pending-transactions').text(response.pending_transactions);
+            $('#total-revenue').text(response.total_revenue);
+        })
+        .fail(function() {
+            console.log('Error loading summary data');
+        });
+    }
+
     // Filter button click
     $('#filter-btn').click(function() {
         table.ajax.reload();
+        updateSummary();
     });
 
     // Reset button
@@ -257,35 +264,19 @@ $(function() {
         $('#date-from').val('');
         $('#date-to').val('');
         table.ajax.reload();
+        updateSummary();
     });
 
     // Auto filter on input change
     $('#status-filter, #brand-filter, #date-from, #date-to').change(function() {
         table.ajax.reload();
+        updateSummary();
     });
+
+    // Initialize summary on page load
+    updateSummary();
 
     // Export buttons
-    $('#export-pdf').click(function() {
-        let params = new URLSearchParams({
-            type: 'history',
-            status: $('#status-filter').val(),
-            brand: $('#brand-filter').val(),
-            date_from: $('#date-from').val(),
-            date_to: $('#date-to').val()
-        });
-        window.open("{{ route('admin.cms.Report.export.pdf') }}?" + params.toString(), '_blank');
-    });
-
-    $('#export-excel').click(function() {
-        let params = new URLSearchParams({
-            type: 'history',
-            status: $('#status-filter').val(),
-            brand: $('#brand-filter').val(),
-            date_from: $('#date-from').val(),
-            date_to: $('#date-to').val()
-        });
-        window.open("{{ route('admin.cms.Report.export.excel') }}?" + params.toString(), '_blank');
-    });
 });
 </script>
 @endpush

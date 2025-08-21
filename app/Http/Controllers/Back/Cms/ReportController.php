@@ -135,6 +135,14 @@ class ReportController extends Controller
     }
 
     /**
+     * Get transaction history summary
+     */
+    public function historySummary(Request $request)
+    {
+        return response()->json($this->reportService->getTransactionHistorySummary($request));
+    }
+
+    /**
      * Export report to PDF
      */
     public function exportPdf(Request $request)

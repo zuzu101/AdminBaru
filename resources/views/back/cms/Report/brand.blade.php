@@ -23,12 +23,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <button type="button" id="export-pdf" class="btn btn-danger">
-                        <i class="fas fa-file-pdf"></i> Export PDF
-                    </button>
-                    <button type="button" id="export-excel" class="btn btn-success">
-                        <i class="fas fa-file-excel"></i> Export Excel
-                    </button>
+
                     <button type="button" id="refresh-data" class="btn btn-info">
                         <i class="fas fa-sync"></i> Refresh Data
                     </button>
@@ -121,15 +116,6 @@ $(function() {
             {data: 'revenue', name: 'revenue'}
         ],
         order: [[2, 'desc']] // Order by total_services descending
-    });
-
-    // Export buttons
-    $('#export-pdf').click(function() {
-        window.open("{{ route('admin.cms.Report.export.pdf') }}?type=brand", '_blank');
-    });
-
-    $('#export-excel').click(function() {
-        window.open("{{ route('admin.cms.Report.export.excel') }}?type=brand", '_blank');
     });
 
     $('#refresh-data').click(function() {

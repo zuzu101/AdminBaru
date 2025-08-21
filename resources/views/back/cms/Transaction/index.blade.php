@@ -52,38 +52,22 @@
                 type: "POST"
             },
 
-            // $nestedData['no'] = ++$no;
-            // $nestedData['nota'] = $item->nota;
-            // $nestedData['pelanggan_name'] = $item->pelanggan ? $item->pelanggan->name : 'No Customer';
-            // $nestedData['email'] = $item->email;
-            // $nestedData['phone'] = $item->phone;
-            // $nestedData['address'] = $item->address;
-            // $nestedData['brand'] = $item->brand;
-            // $nestedData['model'] = $item->model;
-            // $nestedData['reported_issue'] = $item->reported_issue;
-            // $nestedData['serial_number'] = $item->serial_number;
-            // $nestedData['technician_note'] = $item->technician_note ?: '-';
-            // $nestedData['status'] = $item->status ?: 'Perangkat Baru Masuk';
-            // $nestedData['price'] = $item->price ? 'Rp ' . number_format($item->price, 0, ',', '.') : '-';
-            // $nestedData['created_at'] = $item->created_at ? $item->created_at->format('d/m/Y') : '-';
-            // $nestedData['complete_in'] = $item->complete_in ? $item->complete_in->format('d/m/Y') : '-';
-            // columns: 
             columns: [
-                {data: 'no', name: 'no', title: 'No', width: '5%'},
-                {data: 'nota', name: 'nota', title: 'Nota', width: '15%'},
-                {data: 'pelanggan_name', name: 'pelanggan_name', title: 'Pelanggan', width: '15%'},
-                {data: 'email', name: 'email', title: 'Email', width: '15%'},
-                {data: 'phone', name: 'phone', title: 'Telepon', width: '15%'},
-                {data: 'address', name: 'address', title: 'Alamat', width: '15%'},
-                {data: 'brand', name: 'brand', title: 'Brand', width: '10%'},
-                {data: 'model', name: 'model', title: 'Model', width: '10%'},
-                {data: 'reported_issue', name: 'reported_issue', title: 'Masalah', width: '15%'},
-                {data: 'serial_number', name: 'serial_number', title: 'SN', width: '10%'},
-                {data: 'technician_note', name: 'technician_note', title: 'Catatan Teknisi', width: '15%'},
-                {data: 'status', name: 'status', title: 'Status', width: '15%'},
-                {data: 'price', name: 'price', title: 'Harga', width: '15%'},
-                {data: 'created_at', name: 'created_at', title: 'Dibuat', width: '15%'},
-                {data: 'complete_in', name: 'complete_in', title: 'Selesai', width: '15%'},
+                {data: 'no', name: 'no', title: 'No', autoWidth: true},
+                {data: 'nota', name: 'nota', title: 'Nota', autoWidth: true},
+                {data: 'pelanggan_name', name: 'pelanggan_name', title: 'Pelanggan', autoWidth: true},
+                {data: 'email', name: 'email', title: 'Email', autoWidth: true},
+                {data: 'phone', name: 'phone', title: 'Telepon', autoWidth: true},
+                {data: 'address', name: 'address', title: 'Alamat', autoWidth: true},
+                {data: 'brand', name: 'brand', title: 'Brand', autoWidth: true},
+                {data: 'model', name: 'model', title: 'Model', autoWidth: true},
+                {data: 'reported_issue', name: 'reported_issue', title: 'Masalah', autoWidth: true},
+                {data: 'serial_number', name: 'serial_number', title: 'SN', autoWidth: true},
+                {data: 'technician_note', name: 'technician_note', title: 'Catatan Teknisi', autoWidth: true},
+                {data: 'status', name: 'status', title: 'Status', autoWidth: true},
+                {data: 'price', name: 'price', title: 'Harga', autoWidth: true},
+                {data: 'created_at', name: 'created_at', title: 'Dibuat', autoWidth: true},
+                {data: 'complete_in', name: 'complete_in', title: 'Selesai', autoWidth: true},
             ]
 
         });

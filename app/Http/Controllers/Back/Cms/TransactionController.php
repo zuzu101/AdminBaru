@@ -87,9 +87,9 @@ class TransactionController extends Controller
         return response()->json(['message' => "Data berhasil dihapus"],200);
     }
 
-    public function data(Transaction $transaction)
+    public function data()
     {
-        return $this->transactionService->data($transaction);
+        return $this->transactionService->data();
     }
 
     //function to update transaction status

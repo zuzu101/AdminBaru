@@ -44,9 +44,9 @@ class TransactionService
         }
     }
 
-    public function data(object $transaction)
+    public function data()
     {
-        $array = $transaction->with('pelanggan')->orderBy('id', 'desc')->get(['id', 'pelanggan_id', 'brand', 'model', 'reported_issue', 'serial_number', 'technician_note', 'status', 'price', 'complete_in']);
+        $array = \App\Models\Cms\DeviceRepair::with('pelanggan')->orderBy('id', 'desc')->get();
 
         $data = [];
         $no = 0;
@@ -54,20 +54,20 @@ class TransactionService
         foreach ($array as $item) {
             //transaction table with no input or button
             $nestedData['no'] = ++$no;
-            $nestedData['nota'] = $item->nota;
+            $nestedData['nota'] = $item->nota_number ?: '-';
             $nestedData['pelanggan_name'] = $item->pelanggan ? $item->pelanggan->name : 'No Customer';
-            $nestedData['email'] = $item->email;
-            $nestedData['phone'] = $item->phone;
-            $nestedData['address'] = $item->address;
-            $nestedData['brand'] = $item->brand;
-            $nestedData['model'] = $item->model;
-            $nestedData['reported_issue'] = $item->reported_issue;
-            $nestedData['serial_number'] = $item->serial_number;
+            $nestedData['email'] = $item->pelanggan ? $item->pelanggan->email : '-';
+            $nestedData['phone'] = $item->pelanggan ? $item->pelanggan->phone : '-';
+            $nestedData['address'] = $item->pelanggan ? $item->pelanggan->address : '-';
+            $nestedData['brand'] = $item->brand ?: '-';
+            $nestedData['model'] = $item->model ?: '-';
+            $nestedData['reported_issue'] = $item->reported_issue ?: '-';
+            $nestedData['serial_number'] = $item->serial_number ?: '-';
             $nestedData['technician_note'] = $item->technician_note ?: '-';
             $nestedData['status'] = $item->status ?: 'Perangkat Baru Masuk';
-            $nestedData['price'] = $item->price ? 'Rp ' . number_format($item->price, 0, ',', '.') : '-';
-            $nestedData['created_at'] = $item->created_at ? $item->created_at->format('d/m/Y') : '-';
-            $nestedData['complete_in'] = $item->complete_in ? $item->complete_in->format('d/m/Y') : '-';
+            $nestedData['price'] = $item->price ? 'Rp ' . number_format((float)$item->price, 0, ',', '.') : '-';
+            $nestedData['created_at'] = $item->created_at ? $item->created_at->format('d/m/Y H:i') : '-';
+            $nestedData['complete_in'] = $item->complete_in ? \Carbon\Carbon::parse($item->complete_in)->format('d/m/Y') : '-';
 
             $data[] = $nestedData;
         }

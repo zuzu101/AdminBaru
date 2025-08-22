@@ -12,14 +12,14 @@ class pelanggan extends Model
     protected $table = 'pelanggan';
     protected $guarded = ['id'];
     
-    // Tambahkan fillable untuk field bahasa Inggris
+    // Tambahkan fillable untuk field bahasa Inggris dan Indonesia
     protected $fillable = [
         'name', 
         'email', 
         'phone', 
+        'no_hp',
         'address', 
-        'birth_date', 
-        'gender', 
+        'alamat',
         'status'
     ];
 

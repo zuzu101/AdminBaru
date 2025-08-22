@@ -40,7 +40,7 @@
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label for="brand">Brand</label>
+                            <label for="brand">Merk Laptop</label>
                             <input type="text" name="brand" value="{{ $deviceRepair->brand }}" class="form-control" required>
                         </div>
 
@@ -50,17 +50,17 @@
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label for="reported_issue">Reported Issue</label>
+                            <label for="reported_issue">Kerusakan Yang Dilaporkan</label>
                             <input type="text" name="reported_issue" value="{{ $deviceRepair->reported_issue }}" class="form-control" required>
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label for="serial_number">Serial Number</label>
+                            <label for="serial_number">Serial Number Laptop</label>
                             <input type="text" name="serial_number" value="{{ $deviceRepair->serial_number }}" class="form-control" required>
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label for="technician_note">Technician Note</label>
+                            <label for="technician_note">Catatan Teknisi</label>
                             <textarea name="technician_note" class="form-control">{{ $deviceRepair->technician_note }}</textarea>
                         </div>
 
@@ -75,7 +75,15 @@
 
                         <div class="form-group col-md-6">
                             <label for="price">Estimasi Biaya</label>
-                            <input type="number" name="price" value="{{ $deviceRepair->price }}" class="form-control" min="0" step="0.01" placeholder="0.00">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Rp</span>
+                                </div>
+                                <input type="text" name="price_display" id="price_display" class="form-control" 
+                                       value="{{ $deviceRepair->price ? number_format((float)$deviceRepair->price, 0, ',', '.') : '' }}" 
+                                       placeholder="500.000">
+                                <input type="hidden" name="price" id="price_hidden" value="{{ $deviceRepair->price }}">
+                            </div>
                         </div>
 
                         <div class="form-group col-md-6">
@@ -104,6 +112,29 @@
             allowClear: true,
             width: '100%',
             theme: 'bootstrap-5'
+        });
+
+        // Format currency input
+        $('#price_display').on('input', function() {
+            let value = this.value.replace(/[^\d]/g, ''); // Remove non-digits
+            let formattedValue = '';
+            
+            if (value) {
+                // Format with thousands separator
+                formattedValue = parseInt(value).toLocaleString('id-ID');
+                $('#price_hidden').val(value); // Store raw number for backend
+            } else {
+                $('#price_hidden').val('');
+            }
+            
+            this.value = formattedValue;
+        });
+
+        // Handle paste event
+        $('#price_display').on('paste', function(e) {
+            setTimeout(() => {
+                $(this).trigger('input');
+            }, 1);
         });
 
         $('#form-validation').validate({

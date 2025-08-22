@@ -49,6 +49,7 @@
 @endsection
 
 @push('js')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     let dataTable;
     
@@ -100,45 +101,83 @@
     }
 
     function deleteStatus(id) {
-        if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
-            $.ajax({
-                url: "{{ route('admin.cms.Status.index') }}/" + id,
-                method: 'DELETE',
-                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-                success: function(response) {
-                    if (response.message) {
-                        alert('Data berhasil dihapus');
+        Swal.fire({
+            title: 'Hapus Data Status?',
+            text: "Data yang dihapus tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "{{ route('admin.cms.Status.index') }}/" + id,
+                    method: 'DELETE',
+                    headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+                    success: function(response) {
+                        Swal.fire({
+                            title: 'Berhasil!',
+                            text: 'Data status berhasil dihapus',
+                            icon: 'success',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
                         dataTable.ajax.reload();
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Terjadi kesalahan saat menghapus data',
+                            icon: 'error'
+                        });
                     }
-                },
-                error: function(xhr) {
-                    alert('Error saat menghapus data');
-                }
-            });
-        }
+                });
+            }
+        });
     }
     
     function updateStatus(id, status) {
-        if (confirm('Apakah Anda yakin ingin mengubah status perangkat ini ke "' + status + '"?')) {
-            $.ajax({
-                url: "{{ route('admin.cms.Status.index') }}/" + id + '/update-status',
-                method: 'POST',
-                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-                data: {
-                    status: status
-                },
-                success: function(response) {
-                    if (response.message) {
-                        alert('Status berhasil diperbarui');
+        Swal.fire({
+            title: 'Ubah Status Device?',
+            text: `Apakah Anda yakin ingin mengubah status ke "${status}"?`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#28a745',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Ubah!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "{{ route('admin.cms.Status.index') }}/" + id + '/update-status',
+                    method: 'POST',
+                    headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+                    data: {
+                        status: status
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            title: 'Berhasil!',
+                            text: 'Status berhasil diperbarui',
+                            icon: 'success',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
                         dataTable.ajax.reload();
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Terjadi kesalahan saat memperbarui status',
+                            icon: 'error'
+                        });
+                        console.log(xhr.responseText);
                     }
-                },
-                error: function(xhr) {
-                    alert('Error saat memperbarui status');
-                    console.log(xhr.responseText);
-                }
-            });
-        }
+                });
+            }
+        });
     }
 </script>
 @endpush

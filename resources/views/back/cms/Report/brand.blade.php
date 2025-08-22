@@ -18,15 +18,30 @@
 
 @section('content')
 <section class="container-fluid">
-    <!-- Export Options -->
+    <!-- Filter & Export Options -->
     <div class="row mb-4">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-
-                    <button type="button" id="refresh-data" class="btn btn-info">
-                        <i class="fas fa-sync"></i> Refresh Data
-                    </button>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="brand-filter">Filter Brand:</label>
+                            <select name="brand_filter" id="brand-filter" class="form-control">
+                                <option value="">Semua Brand</option>
+                                @foreach($brands as $brand)
+                                    <option value="{{ $brand }}">{{ $brand }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-8 d-flex align-items-end">
+                            <button type="button" id="refresh-data" class="btn btn-info mr-2">
+                                <i class="fas fa-sync"></i> Refresh Data
+                            </button>
+                            <button type="button" id="reset-filter" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Reset Filter
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -100,9 +115,10 @@ $(function() {
             url: "{{ route('admin.cms.Report.brand.data') }}",
             dataType: "json",
             type: "POST",
+            data: function(d) {
+                d.brand_filter = $('#brand-filter').val();
+            },
             dataSrc: function(json) {
-                // Update charts with data
-                updateCharts(json.data);
                 return json.data;
             }
         },
@@ -118,12 +134,28 @@ $(function() {
         order: [[2, 'desc']] // Order by total_services descending
     });
 
+    // Handle filter change
+    $('#brand-filter').on('change', function() {
+        table.ajax.reload();
+    });
+
     $('#refresh-data').click(function() {
+        table.ajax.reload();
+        // Reload charts with all data (no filter)
+        loadChartData();
+    });
+
+    // Reset filter
+    $('#reset-filter').click(function() {
+        $('#brand-filter').val('');
         table.ajax.reload();
     });
 
     // Initialize charts
     initializeCharts();
+    
+    // Load chart data on page load
+    loadChartData();
 
     function initializeCharts() {
         // Brand Distribution Chart
@@ -177,6 +209,19 @@ $(function() {
                         }
                     }
                 }
+            }
+        });
+    }
+
+    // Load chart data separately (without filter)
+    function loadChartData() {
+        $.ajax({
+            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+            url: "{{ route('admin.cms.Report.brand.data') }}",
+            type: "POST",
+            dataType: "json",
+            success: function(response) {
+                updateCharts(response.data);
             }
         });
     }

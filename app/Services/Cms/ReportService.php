@@ -186,17 +186,23 @@ class ReportService
     }
 
     /**
-     * Get brand report
+     * Get brand report with optional filter
      */
-    public function getBrandReport()
+    public function getBrandReport($request = null)
     {
-        $brandStats = DeviceRepair::select('brand', 
+        $query = DeviceRepair::select('brand', 
                 DB::raw('COUNT(*) as total_services'),
                 DB::raw('SUM(CASE WHEN status = "Selesai" THEN 1 ELSE 0 END) as completed'),
                 DB::raw('SUM(CASE WHEN price IS NOT NULL THEN price ELSE 0 END) as total_revenue'))
             ->groupBy('brand')
-            ->orderBy('total_services', 'desc')
-            ->get();
+            ->orderBy('total_services', 'desc');
+
+        // Apply brand filter if provided
+        if ($request && $request->has('brand_filter') && $request->brand_filter != '') {
+            $query->where('brand', $request->brand_filter);
+        }
+
+        $brandStats = $query->get();
 
         $data = [];
         $no = 0;
@@ -215,6 +221,19 @@ class ReportService
         }
 
         return DataTables::of($data)->rawColumns(['actions'])->toJson();
+    }
+
+    /**
+     * Get available brands for filter
+     */
+    public function getAvailableBrands()
+    {
+        return DeviceRepair::select('brand')
+            ->whereNotNull('brand')
+            ->where('brand', '!=', '')
+            ->distinct()
+            ->orderBy('brand')
+            ->pluck('brand');
     }
 
     /**

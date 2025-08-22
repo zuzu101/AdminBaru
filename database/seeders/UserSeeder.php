@@ -15,10 +15,13 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
-            'name'      => 'superadmin',
-            'email'     => 'superadmin@mail.com',
-            'password'  => Hash::make('SecretDev123!')
-        ]);
+        // Check if superadmin user already exists
+        if (!User::where('email', 'superadmin@mail.com')->exists()) {
+            User::create([
+                'name'      => 'superadmin',
+                'email'     => 'superadmin@mail.com',
+                'password'  => Hash::make('SecretDev123!')
+            ]);
+        }
     }
 }

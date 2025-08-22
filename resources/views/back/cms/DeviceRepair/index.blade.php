@@ -48,6 +48,7 @@
 @endsection
 
 @push('js')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(function() {
         $('#datatable').DataTable({
@@ -81,22 +82,41 @@
     });
 
     function deleteDeviceRepair(id) {
-        if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
-            $.ajax({
-                url: "{{ route('admin.cms.DeviceRepair.index') }}/" + id,
-                method: 'DELETE',
-                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-                success: function(response) {
-                    if (response.message) {
-                        alert('Data berhasil dihapus');
+        Swal.fire({
+            title: 'Hapus Data Device Repair?',
+            text: "Data yang dihapus tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "{{ route('admin.cms.DeviceRepair.index') }}/" + id,
+                    method: 'DELETE',
+                    headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+                    success: function(response) {
+                        Swal.fire({
+                            title: 'Berhasil!',
+                            text: 'Data berhasil dihapus',
+                            icon: 'success',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
                         $('#datatable').DataTable().ajax.reload();
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Terjadi kesalahan saat menghapus data',
+                            icon: 'error'
+                        });
                     }
-                },
-                error: function(xhr) {
-                    alert('Error saat menghapus data');
-                }
-            });
-        }
+                });
+            }
+        });
     }
 </script>
 @endpush

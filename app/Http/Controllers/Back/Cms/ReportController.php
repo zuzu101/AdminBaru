@@ -56,7 +56,8 @@ class ReportController extends Controller
      */
     public function brand()
     {
-        return view('back.cms.Report.brand');
+        $brands = $this->reportService->getAvailableBrands();
+        return view('back.cms.Report.brand', compact('brands'));
     }
 
     /**
@@ -114,20 +115,13 @@ class ReportController extends Controller
     /**
      * Get brand report data
      */
-    public function brandData()
+    public function brandData(Request $request)
     {
-        return $this->reportService->getBrandReport();
+        return $this->reportService->getBrandReport($request);
     }
 
     /**
-     * Get issue report data
-     */
-    public function issueData()
-    {
-        return $this->reportService->getIssueReport();
-    }
 
-    /**
      * Get transaction history data
      */
     public function historyData(Request $request)

@@ -14,6 +14,11 @@ class FullYearDeviceRepairSeeder extends Seeder
      */
     public function run(): void
     {
+        // Skip seeding if device repairs already exist
+        if (DeviceRepair::count() > 0) {
+            return;
+        }
+
         // Create customers first
         $customers = [
             ['name' => 'Ahmad Rizki', 'email' => 'ahmad.rizki@email.com', 'phone' => '081234567890', 'address' => 'Jl. Sudirman No. 123, Jakarta'],
@@ -35,8 +40,14 @@ class FullYearDeviceRepairSeeder extends Seeder
 
         $pelangganIds = [];
         foreach ($customers as $customer) {
-            $pelanggan = Pelanggan::create($customer);
-            $pelangganIds[] = $pelanggan->id;
+            // Check if customer already exists by email
+            $existingPelanggan = Pelanggan::where('email', $customer['email'])->first();
+            if ($existingPelanggan) {
+                $pelangganIds[] = $existingPelanggan->id;
+            } else {
+                $pelanggan = Pelanggan::create($customer);
+                $pelangganIds[] = $pelanggan->id;
+            }
         }
 
         // Device brands and models

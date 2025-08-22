@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Back\Cms;
 use App\Http\Controllers\Controller;
 use App\Services\Cms\ReportService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ReportController extends Controller
 {
@@ -91,12 +92,12 @@ class ReportController extends Controller
         $week = $request->get('week', now()->format('Y-W'));
         
         // Debug log
-        \Log::info('Weekly report week parameter: ' . $week);
+        Log::info('Weekly report week parameter: ' . $week);
         
         try {
             return $this->reportService->getWeeklyReport($week);
         } catch (\Exception $e) {
-            \Log::error('Weekly report error: ' . $e->getMessage());
+            Log::error('Weekly report error: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
@@ -132,14 +133,6 @@ class ReportController extends Controller
     public function historyData(Request $request)
     {
         return $this->reportService->getTransactionHistory($request);
-    }
-
-    /**
-     * Get transaction history summary
-     */
-    public function historySummary(Request $request)
-    {
-        return response()->json($this->reportService->getTransactionHistorySummary($request));
     }
 
     /**

@@ -45,6 +45,15 @@
                             <label for="address">Alamat</label>
                             <input type="text" name="address" class="form-control" required>
                         </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="status">Status</label>
+                            <select name="status" class="form-control" required>
+                                <option value="">Pilih Status</option>
+                                <option value="1">Active</option>
+                                <option value="0">Inactive</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 

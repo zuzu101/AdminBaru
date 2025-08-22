@@ -46,6 +46,15 @@
                             <label for="address">Alamat</label>
                             <input type="text" name="address" value="{{ $pelanggan->address }}" class="form-control" required>
                         </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="status">Status</label>
+                            <select name="status" class="form-control" required>
+                                <option value="">Pilih Status</option>
+                                <option value="1" {{ $pelanggan->status == 1 ? 'selected' : '' }}>Active</option>
+                                <option value="0" {{ $pelanggan->status == 0 ? 'selected' : '' }}>Inactive</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 

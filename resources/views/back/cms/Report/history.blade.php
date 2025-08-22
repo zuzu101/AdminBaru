@@ -188,73 +188,11 @@
 
 @push('js')
 <script>
-$(function() {
-    let table = $('#historyTable').DataTable({
-        responsive: true,
-        processing: true,
-        serverSide: true,
-        autoWidth: false,
-        pageLength: 10,
-        scrollX: true,
-        ajax: {
-            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-            url: "{{ route('admin.cms.Report.history.data') }}",
-            dataType: "json",
-            type: "POST",
-            data: function(d) {
-                d.status = $('#status-filter').val();
-                d.brand = $('#brand-filter').val();
-                d.date_from = $('#date-from').val();
-                d.date_to = $('#date-to').val();
-            }
-        },
-        columns: [
-            {data: 'no', name: 'no', orderable: false, searchable: false, width: '50px'},
-            {data: 'nota_number', name: 'nota_number'},
-            {data: 'created_date', name: 'created_date'},
-            {data: 'pelanggan', name: 'pelanggan'},
-            {data: 'phone', name: 'phone'},
-            {data: 'email', name: 'email'},
-            {data: 'brand', name: 'brand'},
-            {data: 'model', name: 'model'},
-            {data: 'serial_number', name: 'serial_number'},
-            {data: 'reported_issue', name: 'reported_issue', 
-             render: function(data) {
-                 return data.length > 30 ? data.substring(0, 30) + '...' : data;
-             }},
-            {data: 'status', name: 'status', orderable: false},
-            {data: 'price', name: 'price'},
-            {data: 'complete_in', name: 'complete_in'}
-        ],
-        order: [[2, 'desc']] // Order by created_date descending
-    });
 
-    // Update summary cards
-    function updateSummary() {
-        let params = {
-            status: $('#status-filter').val(),
-            brand: $('#brand-filter').val(),
-            date_from: $('#date-from').val(),
-            date_to: $('#date-to').val(),
-            _token: '{{ csrf_token() }}'
-        };
 
-        $.post("{{ route('admin.cms.Report.history.summary') }}", params)
-        .done(function(response) {
-            $('#total-transactions').text(response.total_transactions);
-            $('#completed-transactions').text(response.completed_transactions);
-            $('#pending-transactions').text(response.pending_transactions);
-            $('#total-revenue').text(response.total_revenue);
-        })
-        .fail(function() {
-            console.log('Error loading summary data');
-        });
-    }
-
-    // Filter button click
+    // Filter button
     $('#filter-btn').click(function() {
         table.ajax.reload();
-        updateSummary();
     });
 
     // Reset button
@@ -264,17 +202,12 @@ $(function() {
         $('#date-from').val('');
         $('#date-to').val('');
         table.ajax.reload();
-        updateSummary();
     });
 
     // Auto filter on input change
     $('#status-filter, #brand-filter, #date-from, #date-to').change(function() {
         table.ajax.reload();
-        updateSummary();
     });
-
-    // Initialize summary on page load
-    updateSummary();
 
     // Export buttons
 });

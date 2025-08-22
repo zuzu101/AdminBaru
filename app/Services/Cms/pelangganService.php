@@ -3,30 +3,33 @@
 namespace App\Services\Cms;
 
 use App\Helpers\ErrorHandling;
-use App\Http\Requests\Cms\UpdatepelangganRequest;
+use App\Http\Requests\Cms\PelangganRequest;
 use App\Models\Cms\pelanggan;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 
-class pelangganService
+class PelangganService
 {
-    public function store(UpdatepelangganRequest $request) {
-        $request->validated();
+    public function store(PelangganRequest $request) {
+        $validatedData = $request->validated();
 
         try {
-            pelanggan::create($request->all());
-        } catch (\Error $e) {
-            ErrorHandling::environmentErrorHandling($e->getMessage());
+            pelanggan::create($validatedData);
+        } catch (\Exception $e) {
+            Log::error('Error storing pelanggan: ' . $e->getMessage());
+            throw $e;
         }
     }
 
-    public function update(UpdatepelangganRequest $request, pelanggan $pelanggan)
+    public function update(PelangganRequest $request, pelanggan $pelanggan)
     {
-        $request->validated();
+        $validatedData = $request->validated();
 
         try {
-            $pelanggan->update($request->all());
-        } catch (\Error $e) {
-            ErrorHandling::environmentErrorHandling($e->getMessage());
+            $pelanggan->update($validatedData);
+        } catch (\Exception $e) {
+            Log::error('Error updating pelanggan: ' . $e->getMessage());
+            throw $e;
         }
     }
 

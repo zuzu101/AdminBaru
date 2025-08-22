@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Back\Cms;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Cms\UpdatepelangganRequest;
+use App\Http\Requests\Cms\PelangganRequest;
 use App\Models\Cms\pelanggan;
-use App\Services\Cms\pelangganService;
+use App\Services\Cms\PelangganService;
 use Illuminate\Http\Request;
 
 class PelangganController extends Controller
 {
     protected $pelangganService;
-    public function __construct(pelangganService $pelangganService)
+    public function __construct(PelangganService $pelangganService)
     {
         $this->pelangganService = $pelangganService;
     }
@@ -42,11 +42,14 @@ class PelangganController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UpdatepelangganRequest $pelangganRequest)
+    public function store(PelangganRequest $pelangganRequest)
     {
-        $this->pelangganService->store($pelangganRequest);
-
-        return redirect()->route('admin.cms.pelanggan.index')->with('success', 'Data Berhasil Ditambahkan');
+        try {
+            $this->pelangganService->store($pelangganRequest);
+            return redirect()->route('admin.cms.pelanggan.index')->with('success', 'Data Berhasil Ditambahkan');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
+        }
     }
 
     /**
@@ -67,11 +70,14 @@ class PelangganController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatepelangganRequest $UpdatepelangganRequest, pelanggan $pelanggan)
+    public function update(PelangganRequest $pelangganRequest, pelanggan $pelanggan)
     {
-        $this->pelangganService->update($UpdatepelangganRequest, $pelanggan);
-
-        return redirect()->route('admin.cms.pelanggan.index')->with('success', 'Data Berhasil Diperbaharui');
+        try {
+            $this->pelangganService->update($pelangganRequest, $pelanggan);
+            return redirect()->route('admin.cms.pelanggan.index')->with('success', 'Data Berhasil Diperbaharui');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
+        }
     }
 
     /**
@@ -87,8 +93,8 @@ class PelangganController extends Controller
         return response()->json(['message' => "Data berhasil dihapus"],200);
     }
 
-    public function data(pelanggan $pelanggan)
+    public function data()
     {
-        return $this->pelangganService->data($pelanggan);
+        return $this->pelangganService->data();
     }
 }

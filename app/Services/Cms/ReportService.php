@@ -218,38 +218,6 @@ class ReportService
     }
 
     /**
-     * Get issue type report
-     */
-    public function getIssueReport()
-    {
-        $issueStats = DeviceRepair::select('reported_issue',
-                DB::raw('COUNT(*) as total_services'),
-                DB::raw('SUM(CASE WHEN status = "Selesai" THEN 1 ELSE 0 END) as completed'),
-                DB::raw('SUM(CASE WHEN price IS NOT NULL THEN price ELSE 0 END) as total_revenue'))
-            ->groupBy('reported_issue')
-            ->orderBy('total_services', 'desc')
-            ->get();
-
-        $data = [];
-        $no = 0;
-        foreach ($issueStats as $issue) {
-            $nestedData['no'] = ++$no;
-            $nestedData['issue_type'] = $issue->reported_issue ?: 'Unknown';
-            $nestedData['total_services'] = $issue->total_services;
-            $nestedData['completed'] = $issue->completed;
-            $nestedData['pending'] = $issue->total_services - $issue->completed;
-            $nestedData['completion_rate'] = $issue->total_services > 0 
-                ? round(($issue->completed / $issue->total_services) * 100, 1) . '%' 
-                : '0%';
-            $nestedData['revenue'] = 'Rp ' . number_format((float)$issue->total_revenue, 0, ',', '.');
-
-            $data[] = $nestedData;
-        }
-
-        return DataTables::of($data)->rawColumns(['actions'])->toJson();
-    }
-
-    /**
      * Get transaction history report (all service transactions)
      */
     public function getTransactionHistory($request)
@@ -273,100 +241,64 @@ class ReportService
             $query->whereDate('created_at', '<=', $request->date_to);
         }
 
-        return DataTables::eloquent($query)
-            ->addColumn('no', function($data) {
-                static $counter = 0;
-                $counter++;
-                return $counter;
-            })
-            ->addColumn('nota_number', function($data) {
-                return $data->nota_number ?: '-';
-            })
-            ->addColumn('created_date', function($data) {
-                return $data->created_at->format('d/m/Y H:i');
-            })
-            ->addColumn('pelanggan', function($data) {
-                return $data->pelanggan ? $data->pelanggan->name : 'No Customer';
-            })
-            ->addColumn('phone', function($data) {
-                return $data->pelanggan ? $data->pelanggan->phone : '-';
-            })
-            ->addColumn('email', function($data) {
-                return $data->pelanggan ? $data->pelanggan->email : '-';
-            })
-            ->addColumn('brand', function($data) {
-                return $data->brand ?: '-';
-            })
-            ->addColumn('model', function($data) {
-                return $data->model ?: '-';
-            })
-            ->addColumn('serial_number', function($data) {
-                return $data->serial_number ?: '-';
-            })
-            ->addColumn('reported_issue', function($data) {
-                return $data->reported_issue ?: '-';
-            })
-            ->addColumn('technician_note', function($data) {
-                return $data->technician_note ?: '-';
-            })
-            ->addColumn('status', function($data) {
-                $statusClass = '';
-                switch($data->status) {
-                    case 'Selesai':
-                        $statusClass = 'badge bg-success';
-                        break;
-                    case 'Sedang Diperbaiki':
-                        $statusClass = 'badge bg-warning';
-                        break;
-                    default:
-                        $statusClass = 'badge bg-secondary';
-                }
-                return '<span class="' . $statusClass . '">' . ($data->status ?: 'Perangkat Baru Masuk') . '</span>';
-            })
-            ->addColumn('price', function($data) {
-                return $data->price ? 'Rp ' . number_format((float)$data->price, 0, ',', '.') : '-';
-            })
-            ->addColumn('complete_in', function($data) {
-                return $data->complete_in ? \Carbon\Carbon::parse($data->complete_in)->format('d/m/Y') : '-';
-            })
-            ->rawColumns(['status'])
-            ->make(true);
-    }
-
-    /**
-     * Get transaction history summary for dashboard cards
-     */
-    public function getTransactionHistorySummary($request)
-    {
-        $query = DeviceRepair::query();
-
-        // Apply same filters as main data
-        if ($request->has('status') && $request->status != '') {
-            $query->where('status', $request->status);
-        }
-
-        if ($request->has('brand') && $request->brand != '') {
-            $query->where('brand', 'LIKE', '%' . $request->brand . '%');
-        }
-
-        if ($request->has('date_from') && $request->date_from != '') {
-            $query->whereDate('created_at', '>=', $request->date_from);
-        }
-
-        if ($request->has('date_to') && $request->date_to != '') {
-            $query->whereDate('created_at', '<=', $request->date_to);
-        }
-
         $services = $query->get();
-        $totalCompleted = $services->where('status', 'Selesai')->count();
-        $totalRevenue = $services->sum('price');
 
-        return [
-            'total_transactions' => $services->count(),
-            'completed_transactions' => $totalCompleted,
-            'pending_transactions' => $services->count() - $totalCompleted,
+        $data = [];
+        $no = 0;
+        $totalTransactions = 0;
+        $completedTransactions = 0;
+        $totalRevenue = 0;
+
+        foreach ($services as $item) {
+            $nestedData['no'] = ++$no;
+            $nestedData['nota_number'] = $item->nota_number ?: '-';
+            $nestedData['created_date'] = $item->created_at->format('d/m/Y H:i');
+            $nestedData['pelanggan'] = $item->pelanggan ? $item->pelanggan->name : 'No Customer';
+            $nestedData['phone'] = $item->pelanggan ? $item->pelanggan->phone : '-';
+            $nestedData['email'] = $item->pelanggan ? $item->pelanggan->email : '-';
+            $nestedData['brand'] = $item->brand ?: '-';
+            $nestedData['model'] = $item->model ?: '-';
+            $nestedData['serial_number'] = $item->serial_number ?: '-';
+            $nestedData['reported_issue'] = $item->reported_issue ?: '-';
+            $nestedData['technician_note'] = $item->technician_note ?: '-';
+            
+            // Status with badge
+            $statusClass = '';
+            switch($item->status) {
+                case 'Selesai':
+                    $statusClass = 'badge bg-success';
+                    $completedTransactions++;
+                    break;
+                case 'Sedang Diperbaiki':
+                    $statusClass = 'badge bg-warning';
+                    break;
+                default:
+                    $statusClass = 'badge bg-secondary';
+            }
+            $nestedData['status'] = '<span class="' . $statusClass . '">' . ($item->status ?: 'Perangkat Baru Masuk') . '</span>';
+            
+            $nestedData['price'] = $item->price ? 'Rp ' . number_format((float)$item->price, 0, ',', '.') : '-';
+            $nestedData['complete_in'] = $item->complete_in ? \Carbon\Carbon::parse($item->complete_in)->format('d/m/Y') : '-';
+
+            $totalTransactions++;
+            if ($item->price) {
+                $totalRevenue += (float)$item->price;
+            }
+
+            $data[] = $nestedData;
+        }
+
+        $summary = [
+            'total_transactions' => $totalTransactions,
+            'completed_transactions' => $completedTransactions,
+            'pending_transactions' => $totalTransactions - $completedTransactions,
             'total_revenue' => 'Rp ' . number_format($totalRevenue, 0, ',', '.')
         ];
+
+        return response()->json([
+            'data' => $data,
+            'summary' => $summary
+        ]);
     }
 
     /**

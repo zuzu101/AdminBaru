@@ -8,14 +8,11 @@ use App\Http\Controllers\Auth\Member\RegisterController as MemberRegisterControl
 use App\Http\Controllers\Auth\Member\LoginController as MemberLoginController;
 use App\Http\Controllers\Auth\Talent\RegisterController as TalentRegisterController;
 use App\Http\Controllers\Auth\Talent\LoginController as TalentLoginController;
-use App\Http\Controllers\Back\Cms\FounderController;
-use App\Http\Controllers\Back\Cms\NewsroomController;
 use App\Http\Controllers\Back\Cms\pelangganController;
 use App\Http\Controllers\Back\Cms\DeviceRepairController;
 use App\Http\Controllers\Back\Cms\StatusController;
 use App\Http\Controllers\Back\Cms\NotaController;
 use App\Http\Controllers\Back\Cms\ReportController;
-use App\Http\Controllers\Back\Cms\TransactionController;
 use App\Http\Controllers\Member\ProfileController as MemberProfileController;
 use App\Http\Controllers\Member\HistoryBookingController as MemberHistoryBookingController;
 use App\Http\Controllers\Talent\ScheduleController as TalentScheduleController;
@@ -95,15 +92,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::group(['middleware' => ['auth:web']], function () {
 
         Route::group(['prefix' => 'cms', 'as' => 'cms.'], function () {
-            Route::resource('newsrooms', NewsroomController::class)->except('show');
-            Route::group(['prefix' => 'newsrooms', 'as' => 'newsrooms.'], function () {
-                Route::post('data', [NewsroomController::class, 'data'])->name('data');
-            });
-
-            Route::resource('founders', FounderController::class)->except('show');
-            Route::group(['prefix' => 'founders', 'as' => 'founders.'], function () {
-                Route::post('data', [FounderController::class, 'data'])->name('data');
-            });
 
             Route::resource('pelanggan', pelangganController::class)->except('show');
             Route::group(['prefix' => 'pelanggan', 'as' => 'pelanggan.'], function () {
@@ -120,11 +108,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::group(['prefix' => 'Status', 'as' => 'Status.'], function () {
                 Route::post('data', [StatusController::class, 'data'])->name('data');
                 Route::post('{status}/update-status', [StatusController::class, 'updateStatus'])->name('updateStatus');
-            });
-
-            Route::resource('Transaction', TransactionController::class)->except('show');
-            Route::group(['prefix' => 'Transaction', 'as' => 'Transaction.'], function () {
-                Route::post('data', [TransactionController::class, 'data'])->name('data');
             });
 
             Route::resource('Nota', NotaController::class)->only('index');
@@ -152,7 +135,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
                 Route::post('brand/data', [ReportController::class, 'brandData'])->name('brand.data');
                 Route::post('issue/data', [ReportController::class, 'issueData'])->name('issue.data');
                 Route::post('history/data', [ReportController::class, 'historyData'])->name('history.data');
-                Route::post('history/summary', [ReportController::class, 'historySummary'])->name('history.summary');
                 
                 // Export endpoints
                 Route::get('export/pdf', [ReportController::class, 'exportPdf'])->name('export.pdf');

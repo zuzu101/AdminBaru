@@ -155,6 +155,7 @@
             </div>
         </div>
 
+        <!-- Laporan per Tipe Service -->
         <div class="col-lg-6 col-md-6 mb-4">
             <div class="card border-left-warning shadow h-100 py-2">
                 <div class="card-body">
@@ -184,7 +185,7 @@
         
     </div>
 
-    <!-- Quick Stats -->
+    <!-- Tabel -->
     <div class="card shadow">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Riwayat Lengkap Transaksi Service</h6>
@@ -275,7 +276,7 @@ $(function() {
     let table = $('#historyTable').DataTable({
         responsive: true,
         processing: true,
-        serverSide: true,
+        serverSide: false,
         autoWidth: false,
         pageLength: 10,
         scrollX: true,
@@ -283,7 +284,28 @@ $(function() {
             headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
             url: "{{ route('admin.cms.Report.history.data') }}",
             dataType: "json",
-            type: "POST"
+            type: "POST",
+            data: function(d) {
+                return {
+                    status: $('#status-filter').val(),
+                    brand: $('#brand-filter').val(),
+                    date_from: $('#date-from').val(),
+                    date_to: $('#date-to').val(),
+                    _token: '{{ csrf_token() }}'
+                };
+            },
+            dataSrc: function(json) {
+                console.log('Response data:', json); // Debug line
+                // Update summary cards
+                if (json.summary) {
+                    $('#total-transactions').text(json.summary.total_transactions);
+                    $('#completed-transactions').text(json.summary.completed_transactions);
+                    $('#pending-transactions').text(json.summary.pending_transactions);
+                    $('#total-revenue').text(json.summary.total_revenue);
+                }
+                console.log('Data array:', json.data); // Debug line
+                return json.data;
+            }
         },
         columns: [
             {data: 'no', name: 'no', orderable: false, searchable: false, width: '50px'},
@@ -303,7 +325,14 @@ $(function() {
             {data: 'price', name: 'price'},
             {data: 'complete_in', name: 'complete_in'}
         ],
-        order: [[2, 'desc']] // Order by created_date descending
+        columnDefs: [
+            {
+                targets: [10], // Status column index
+                createdCell: function(td, cellData, rowData, row, col) {
+                    $(td).html(cellData);
+                }
+            }
+        ]
     });
 });
 </script>

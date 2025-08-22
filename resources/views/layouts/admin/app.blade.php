@@ -83,18 +83,6 @@
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.cms.newsrooms.*') ? 'active' : '' }}" 
-                               href="{{ route('admin.cms.newsrooms.index') }}">
-                                <i class="fas fa-newspaper"></i> newsrooms
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.cms.founders.*') ? 'active' : '' }}" 
-                               href="{{ route('admin.cms.founders.index') }}">
-                                <i class="fas fa-users"></i> Founders
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('admin.cms.pelanggan.*') ? 'active' : '' }}" 
                                href="{{ route('admin.cms.pelanggan.index') }}">
                                 <i class="fas fa-users"></i> Pelanggan
@@ -116,12 +104,6 @@
                             <a class="nav-link {{ request()->routeIs('admin.cms.Nota.*') ? 'active' : '' }}" 
                                href="{{ route('admin.cms.Nota.index') }}">
                                 <i class="fas fa-receipt"></i> Nota
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.cms.Transaction.*') ? 'active' : '' }}" 
-                               href="{{ route('admin.cms.Transaction.index') }}">
-                                <i class="fas fa-exchange-alt"></i> Transaction
                             </a>
                         </li>
                         <li class="nav-item dropdown">

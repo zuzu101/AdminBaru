@@ -8,8 +8,8 @@ use App\Http\Controllers\Auth\Member\RegisterController as MemberRegisterControl
 use App\Http\Controllers\Auth\Member\LoginController as MemberLoginController;
 use App\Http\Controllers\Auth\Talent\RegisterController as TalentRegisterController;
 use App\Http\Controllers\Auth\Talent\LoginController as TalentLoginController;
-use App\Http\Controllers\Back\Cms\pelangganController;
 use App\Http\Controllers\Back\Cms\DeviceRepairController;
+use App\Http\Controllers\Back\Cms\CustomersController;
 use App\Http\Controllers\Back\Cms\StatusController;
 use App\Http\Controllers\Back\Cms\NotaController;
 use App\Http\Controllers\Back\Cms\ReportController;
@@ -93,9 +93,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
         Route::group(['prefix' => 'cms', 'as' => 'cms.'], function () {
 
-            Route::resource('pelanggan', pelangganController::class)->except('show');
-            Route::group(['prefix' => 'pelanggan', 'as' => 'pelanggan.'], function () {
-                Route::post('data', [pelangganController::class, 'data'])->name('data');
+            Route::resource('customers', CustomersController::class)->except('show')->parameters(['customers' => 'customer']);
+            Route::group(['prefix' => 'customers', 'as' => 'customers.'], function () {
+                Route::post('data', [CustomersController::class, 'data'])->name('data');
             });
 
             Route::resource('DeviceRepair', DeviceRepairController::class)->except('show')->parameters(['DeviceRepair' => 'deviceRepair']);

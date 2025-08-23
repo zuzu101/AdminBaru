@@ -21,9 +21,9 @@ class Customers extends Model
         'status'
     ];
 
-    // Relationship - hasOne device repair
-    public function deviceRepair()
+    // Relationship - hasMany device repairs
+    public function deviceRepairs()
     {
-        return $this->hasOne(\App\Models\Cms\DeviceRepair::class, 'customer_id');
+        return $this->hasMany(\App\Models\Cms\DeviceRepair::class, 'customer_id');
     }
 }

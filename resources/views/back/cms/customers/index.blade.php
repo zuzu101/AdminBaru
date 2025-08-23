@@ -4,11 +4,11 @@
 <header class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1>Data Pelanggan</h1>
+            <h1>Customer Data</h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item active">Pelanggan</li>
+                <li class="breadcrumb-item active">Customers</li>
             </ol>
         </div>
     </div>
@@ -70,9 +70,9 @@
         });
     });
 
-    function deletePelanggan(id) {
+    function deleteCustomer(id) {
         Swal.fire({
-            title: 'Hapus Data Customers?',
+            title: 'Hapus Data Pelanggan?',
             text: "Data yang dihapus tidak dapat dikembalikan!",
             icon: 'warning',
             showCancelButton: true,
@@ -89,7 +89,7 @@
                     success: function(response) {
                         Swal.fire({
                             title: 'Berhasil!',
-                            text: 'Data customers berhasil dihapus',
+                            text: 'Data pelanggan berhasil dihapus',
                             icon: 'success',
                             timer: 2000,
                             showConfirmButton: false

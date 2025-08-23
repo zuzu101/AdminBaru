@@ -83,9 +83,9 @@
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.cms.pelanggan.*') ? 'active' : '' }}" 
-                               href="{{ route('admin.cms.pelanggan.index') }}">
-                                <i class="fas fa-users"></i> Pelanggan
+                            <a class="nav-link {{ request()->routeIs('admin.cms.customers.*') ? 'active' : '' }}" 
+                               href="{{ route('admin.cms.customers.index') }}">
+                                <i class="fas fa-users"></i> Customers
                             </a>
                         </li>
                         <li class="nav-item">

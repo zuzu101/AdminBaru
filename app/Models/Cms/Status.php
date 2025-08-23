@@ -13,7 +13,7 @@ class Status extends Model
     protected $guarded = ['id'];
     
     protected $fillable = [
-        'pelanggan_id',
+        'customer_id',
         'brand',
         'model', 
         'reported_issue',
@@ -29,8 +29,8 @@ class Status extends Model
     ];
 
     // Relationship
-    public function pelanggan()
+    public function customers()
     {
-        return $this->belongsTo(\App\Models\Cms\Pelanggan::class, 'pelanggan_id');
+        return $this->belongsTo(\App\Models\Cms\Customers::class, 'customer_id');
     }
 }

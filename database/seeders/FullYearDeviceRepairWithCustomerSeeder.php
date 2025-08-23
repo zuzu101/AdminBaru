@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Cms\Customer;
+use App\Models\Cms\Customers;
 use App\Models\Cms\DeviceRepair;
 use Carbon\Carbon;
 
@@ -15,7 +15,7 @@ class FullYearDeviceRepairWithCustomerSeeder extends Seeder
     public function run(): void
     {
         // Skip seeding if customers already exist (instead of device repairs)
-        if (Customer::count() > 0) {
+        if (Customers::count() > 0) {
             echo "Customers already exist. Skipping seeder.\n";
             return;
         }
@@ -42,11 +42,11 @@ class FullYearDeviceRepairWithCustomerSeeder extends Seeder
         $customerIds = [];
         foreach ($customers as $customer) {
             // Check if customer already exists by email
-            $existingCustomer = Customer::where('email', $customer['email'])->first();
+            $existingCustomer = Customers::where('email', $customer['email'])->first();
             if ($existingCustomer) {
                 $customerIds[] = $existingCustomer->id;
             } else {
-                $newCustomer = Customer::create($customer);
+                $newCustomer = Customers::create($customer);
                 $customerIds[] = $newCustomer->id;
             }
         }
@@ -157,7 +157,7 @@ class FullYearDeviceRepairWithCustomerSeeder extends Seeder
                     'Sudah dicek, perlu ganti sparepart',
                     'Perlu pemesanan komponen khusus',
                     'Sudah diperbaiki dan ditest normal',
-                    'Menunggu konfirmasi dari customer',
+                    'Menunggu konfirmasi dari customers',
                     'Sedang proses perbaikan',
                     'Komponen sudah diganti, sedang testing',
                     'Perlu waktu tambahan untuk analisa',

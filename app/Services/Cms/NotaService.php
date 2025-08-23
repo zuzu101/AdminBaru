@@ -16,7 +16,7 @@ class NotaService
 
     public function data(object $deviceRepair)
     {
-        $array = $deviceRepair->with('pelanggan')->orderBy('id', 'desc')->get(['id', 'nota_number', 'pelanggan_id', 'brand', 'model', 'reported_issue', 'serial_number', 'technician_note', 'status', 'price', 'complete_in', 'created_at']);
+        $array = $deviceRepair->with('customers')->orderBy('id', 'desc')->get(['id', 'nota_number', 'customer_id', 'brand', 'model', 'reported_issue', 'serial_number', 'technician_note', 'status', 'price', 'complete_in', 'created_at']);
 
         $data = [];
         $no = 0;
@@ -25,7 +25,7 @@ class NotaService
             $no++;
             $nestedData['no'] = $no;
             $nestedData['nota_number'] = $item->nota_number ?: '-';
-            $nestedData['pelanggan_name'] = $item->pelanggan ? $item->pelanggan->name : 'No Customer';
+            $nestedData['pelanggan_name'] = $item->customers ? $item->customers->name : 'No Customers';
             $nestedData['device_info'] = $item->brand . ' ' . $item->model;
             $nestedData['reported_issue'] = $item->reported_issue;
             
@@ -74,7 +74,7 @@ class NotaService
 
     public function getNotaData($id)
     {
-        return DeviceRepair::with('pelanggan')->findOrFail($id);
+        return DeviceRepair::with('customers')->findOrFail($id);
     }
 
     public function generateNotaNumber($deviceRepair)

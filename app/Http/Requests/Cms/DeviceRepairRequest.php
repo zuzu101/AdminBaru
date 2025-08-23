@@ -24,7 +24,7 @@ class DeviceRepairRequest extends FormRequest
     public function rules()
     {
         return [
-            'pelanggan_id' => 'required|exists:pelanggan,id',
+            'customer_id' => 'required|exists:customers,id',
             'brand' => 'required|string|max:255',
             'model' => 'required|string|max:255',
             'reported_issue' => 'required|string',

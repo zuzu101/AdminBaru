@@ -15,8 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             AdminUserSeeder::class,
-            UserSeeder::class,
-            FullYearDeviceRepairSeeder::class
+            EssentialDataSeeder::class, // Only essential data for development
         ]);
     }
 }

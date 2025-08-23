@@ -46,7 +46,7 @@ class DeviceRepairService
 
     public function data(object $deviceRepair)
     {
-        $array = $deviceRepair->with('pelanggan')->orderBy('id', 'desc')->get(['id', 'pelanggan_id', 'brand', 'model', 'reported_issue', 'serial_number', 'technician_note', 'status', 'price', 'complete_in']);
+        $array = $deviceRepair->with('customers')->orderBy('id', 'desc')->get(['id', 'customer_id', 'brand', 'model', 'reported_issue', 'serial_number', 'technician_note', 'status', 'price', 'complete_in']);
 
         $data = [];
         $no = 0;
@@ -54,7 +54,7 @@ class DeviceRepairService
         foreach ($array as $item) {
             $no++;
             $nestedData['no'] = $no;
-            $nestedData['pelanggan_name'] = $item->pelanggan ? $item->pelanggan->name : 'No Customer';
+            $nestedData['pelanggan_name'] = $item->customers ? $item->customers->name : 'No Customers';
             $nestedData['brand'] = $item->brand;
             $nestedData['model'] = $item->model;
             $nestedData['reported_issue'] = $item->reported_issue;

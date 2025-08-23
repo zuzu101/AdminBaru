@@ -17,7 +17,7 @@ class ReportService
         $startDate = Carbon::parse($date)->startOfDay();
         $endDate = Carbon::parse($date)->endOfDay();
 
-        $services = DeviceRepair::with('pelanggan')
+        $services = DeviceRepair::with('customers')
             ->whereBetween('created_at', [$startDate, $endDate])
             ->get();
 
@@ -30,7 +30,7 @@ class ReportService
         foreach ($services as $item) {
             $nestedData['no'] = ++$no;
             $nestedData['nota'] = $item->nota_number ?: '-';
-            $nestedData['pelanggan'] = $item->pelanggan ? $item->pelanggan->name : 'No Customer';
+            $nestedData['pelanggan'] = $item->customers ? $item->customers->name : 'No Customers';
             $nestedData['brand'] = $item->brand ?: '-';
             $nestedData['model'] = $item->model ?: '-';
             $nestedData['issue'] = $item->reported_issue ?: '-';
@@ -82,7 +82,7 @@ class ReportService
             $startDate = Carbon::now()->setISODate($year, $weekNum)->startOfWeek();
             $endDate = Carbon::now()->setISODate($year, $weekNum)->endOfWeek();
 
-            $services = DeviceRepair::with('pelanggan')
+            $services = DeviceRepair::with('customers')
                 ->whereBetween('created_at', [$startDate, $endDate])
                 ->get();
 
@@ -139,7 +139,7 @@ class ReportService
         $startDate = Carbon::parse($month . '-01')->startOfMonth();
         $endDate = Carbon::parse($month . '-01')->endOfMonth();
 
-        $services = DeviceRepair::with('pelanggan')
+        $services = DeviceRepair::with('customers')
             ->whereBetween('created_at', [$startDate, $endDate])
             ->get();
 
@@ -253,7 +253,7 @@ class ReportService
      */
     public function getTransactionHistory($request)
     {
-        $query = DeviceRepair::with('pelanggan')->orderBy('id', 'desc');
+        $query = DeviceRepair::with('customers')->orderBy('id', 'desc');
 
         // Apply filters
         if ($request->has('status') && $request->status != '') {
@@ -285,13 +285,13 @@ class ReportService
                 return $data->created_at->format('d/m/Y H:i');
             })
             ->addColumn('pelanggan', function($data) {
-                return $data->pelanggan ? $data->pelanggan->name : 'No Customer';
+                return $data->customers ? $data->customers->name : 'No Customers';
             })
             ->addColumn('phone', function($data) {
-                return $data->pelanggan ? $data->pelanggan->phone : '-';
+                return $data->customers ? $data->customers->phone : '-';
             })
             ->addColumn('email', function($data) {
-                return $data->pelanggan ? $data->pelanggan->email : '-';
+                return $data->customers ? $data->customers->email : '-';
             })
             ->addColumn('brand', function($data) {
                 return $data->brand ?: '-';

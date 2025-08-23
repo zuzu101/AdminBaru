@@ -107,7 +107,7 @@
     <div class="info-section">
         <div class="info-row">
             <span class="label">Nama Pelanggan:</span>
-            <span class="value">{{ $deviceRepair->pelanggan->name ?? 'N/A' }}</span>
+            <span class="value">{{ $deviceRepair->customers->name ?? 'N/A' }}</span>
         </div>
         <div class="info-row">
             <span class="label">Tanggal Masuk:</span>
@@ -162,7 +162,7 @@
         <div class="sign-box">
             <div>Pelanggan</div>
             <div class="sign-line"></div>
-            <div>({{ $deviceRepair->pelanggan->name ?? '.....................' }})</div>
+            <div>({{ $deviceRepair->customers->name ?? '.....................' }})</div>
         </div>
         <div class="sign-box">
             <div>Teknisi</div>

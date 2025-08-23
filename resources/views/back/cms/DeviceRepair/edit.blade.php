@@ -28,12 +28,12 @@
                     @csrf
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="pelanggan_id">Pelanggan</label>
-                            <select name="pelanggan_id" id="pelanggan_id" class="form-control select2" required>
+                            <label for="customer_id">Pelanggan</label>
+                            <select name="customer_id" id="customer_id" class="form-control select2" required>
                                 <option value="">Ketik nama pelanggan...</option>
-                                @foreach(\App\Models\Cms\Pelanggan::all() as $pelanggan)
-                                    <option value="{{ $pelanggan->id }}" {{ $deviceRepair->pelanggan_id == $pelanggan->id ? 'selected' : '' }}>
-                                        {{ $pelanggan->name }}
+                                @foreach(\App\Models\Cms\Customers::all() as $customer)
+                                    <option value="{{ $customer->id }}" {{ $deviceRepair->customer_id == $customer->id ? 'selected' : '' }}>
+                                        {{ $customer->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -107,7 +107,7 @@
   <script>
     $(document).ready(function() {
         // Initialize Select2 for pelanggan field
-        $('#pelanggan_id').select2({
+        $('#customer_id').select2({
             placeholder: 'Ketik nama pelanggan...',
             allowClear: true,
             width: '100%',

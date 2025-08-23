@@ -100,7 +100,7 @@ class StatusController extends Controller
 
     public function preview(Status $status)
     {
-        $status->load('pelanggan');
+        $status->load('customers');
         return view('back.cms.Status.preview', compact('status'));
     }
 }

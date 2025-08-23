@@ -40,9 +40,9 @@ class DeviceRepair extends Model
         return $this->belongsTo(\App\Models\Cms\Pelanggan::class, 'pelanggan_id');
     }
     
-    // Relationship with Customer
-    public function customer()
+    // Relationship with Customers
+    public function customers()
     {
-        return $this->belongsTo(\App\Models\Cms\Customer::class, 'customer_id');
+        return $this->belongsTo(\App\Models\Cms\Customers::class, 'customer_id');
     }
 }

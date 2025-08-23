@@ -46,14 +46,14 @@ class StatusService
 
     public function data(object $status, $request = null)
     {
-        $query = $status->with('pelanggan')->orderBy('id', 'desc');
+        $query = $status->with('customers')->orderBy('id', 'desc');
         
         // Apply status filter if provided
         if ($request && $request->has('status_filter') && $request->status_filter != '') {
             $query->where('status', $request->status_filter);
         }
         
-        $array = $query->get(['id', 'pelanggan_id', 'brand', 'model', 'reported_issue', 'serial_number', 'technician_note', 'status']);
+        $array = $query->get(['id', 'customer_id', 'brand', 'model', 'reported_issue', 'serial_number', 'technician_note', 'status']);
 
         $data = [];
         $no = 0;
@@ -61,7 +61,7 @@ class StatusService
         foreach ($array as $item) {
             $no++;
             $nestedData['no'] = $no;
-            $nestedData['pelanggan_name'] = $item->pelanggan ? $item->pelanggan->name : 'No Customer';
+            $nestedData['pelanggan_name'] = $item->customers ? $item->customers->name : 'No Customers';
             $nestedData['brand'] = $item->brand;
             $nestedData['model'] = $item->model;
             $nestedData['reported_issue'] = $item->reported_issue;

@@ -39,22 +39,22 @@
 
                     <div class="form-group col-md-6">
                         <label for="pelanggan">Nama Pelanggan</label>
-                        <input type="text" name="pelanggan" value="{{ $status->pelanggan->name ?? 'N/A' }}" class="form-control" readonly>
+                        <input type="text" name="pelanggan" value="{{ $status->customers->name ?? 'N/A' }}" class="form-control" readonly>
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="phone">Telepon</label>
-                        <input type="text" name="phone" value="{{ $status->pelanggan->phone ?? 'N/A' }}" class="form-control" readonly>
+                        <input type="text" name="phone" value="{{ $status->customers->phone ?? 'N/A' }}" class="form-control" readonly>
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="email">Email</label>
-                        <input type="text" name="email" value="{{ $status->pelanggan->email ?? 'N/A' }}" class="form-control" readonly>
+                        <input type="text" name="email" value="{{ $status->customers->email ?? 'N/A' }}" class="form-control" readonly>
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="address">Alamat</label>
-                        <input type="text" name="address" value="{{ $status->pelanggan->address ?? 'N/A' }}" class="form-control" readonly>
+                        <input type="text" name="address" value="{{ $status->customers->address ?? 'N/A' }}" class="form-control" readonly>
                     </div>
 
                     <div class="form-group col-md-6">

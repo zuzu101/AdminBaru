@@ -9,6 +9,9 @@
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{ route('admin.cms.Report.index') }}">Laporan</a></li>
+                @if(request()->has('from_monthly'))
+                    <li class="breadcrumb-item"><a href="{{ route('admin.cms.Report.monthly') }}">Laporan Bulanan</a></li>
+                @endif
                 <li class="breadcrumb-item active">Laporan Mingguan</li>
             </ol>
         </div>
@@ -109,6 +112,7 @@
                             <th>Total Service</th>
                             <th>Selesai</th>
                             <th>Revenue</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -139,7 +143,10 @@ $(function() {
         paging: false, // Disable pagination for weekly view
         searching: false,
         ordering: false,
-        info: false
+        info: false,
+        columnDefs: [
+            { orderable: false, targets: 5 } // Disable ordering for action column
+        ]
     });
 
     // Load initial data
@@ -166,12 +173,18 @@ $(function() {
                 table.clear();
                 if (response.data && response.data.length > 0) {
                     response.data.forEach(function(item) {
+                        let fromMonthlyParam = new URLSearchParams(window.location.search).get('from_monthly') ? '&from_monthly=1' : '';
+                        let detailButton = `<a href="{{ route('admin.cms.Report.daily') }}?date=${item.raw_date}&from_weekly=1${fromMonthlyParam}" class="btn btn-primary btn-sm">
+                                               <i class="fas fa-eye"></i> Lihat Detail
+                                           </a>`;
+                        
                         table.row.add([
                             item.date,
                             item.day,
                             item.total_services,
                             item.completed,
-                            item.revenue
+                            item.revenue,
+                            detailButton
                         ]);
                     });
                 }

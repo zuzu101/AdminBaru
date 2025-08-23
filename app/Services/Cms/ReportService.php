@@ -99,6 +99,7 @@ class ReportService
 
                 $dailyData[] = [
                     'date' => $date->format('d/m/Y'),
+                    'raw_date' => $date->format('Y-m-d'), // Raw date for URL parameter
                     'day' => $date->format('l'),
                     'total_services' => $dayServices->count(),
                     'completed' => $dayServices->where('status', 'Selesai')->count(),
@@ -160,8 +161,14 @@ class ReportService
                 return (float)$service->price ?: 0;
             });
 
+            // Generate week identifier for URL parameter (YYYY-WNN format)
+            $weekYear = $currentWeekStart->year;
+            $weekNumber = $currentWeekStart->weekOfYear;
+            $weekIdentifier = $weekYear . '-W' . str_pad($weekNumber, 2, '0', STR_PAD_LEFT);
+
             $weeklyData[] = [
                 'week_period' => $currentWeekStart->format('d/m') . ' - ' . $currentWeekEnd->format('d/m/Y'),
+                'week_identifier' => $weekIdentifier, // For URL parameter
                 'total_services' => $weekServices->count(),
                 'completed' => $weekServices->where('status', 'Selesai')->count(),
                 'revenue' => 'Rp ' . number_format($weeklyRevenue, 0, ',', '.')
@@ -180,8 +187,13 @@ class ReportService
         ];
 
         return DataTables::of($weeklyData)
+            ->addColumn('action', function($data) {
+                return '<a href="' . route('admin.cms.Report.weekly') . '?week=' . $data['week_identifier'] . '&from_monthly=1" class="btn btn-primary btn-sm">
+                           <i class="fas fa-eye"></i> Lihat Detail
+                        </a>';
+            })
             ->with('summary', $summary)
-            ->rawColumns(['actions'])
+            ->rawColumns(['action'])
             ->toJson();
     }
 

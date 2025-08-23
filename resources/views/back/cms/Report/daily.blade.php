@@ -9,6 +9,12 @@
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{ route('admin.cms.Report.index') }}">Laporan</a></li>
+                @if(request()->has('from_monthly'))
+                    <li class="breadcrumb-item"><a href="{{ route('admin.cms.Report.monthly') }}">Laporan Bulanan</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.cms.Report.weekly') }}">Laporan Mingguan</a></li>
+                @elseif(request()->has('from_weekly'))
+                    <li class="breadcrumb-item"><a href="{{ route('admin.cms.Report.weekly') }}">Laporan Mingguan</a></li>
+                @endif
                 <li class="breadcrumb-item active">Laporan Harian</li>
             </ol>
         </div>

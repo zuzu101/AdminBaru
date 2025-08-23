@@ -26,34 +26,61 @@
                 <div class="card-body">
                     @method('PATCH')
                     @csrf
+                    
+                    {{-- Display Global Errors --}}
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="name">Nama</label>
-                            <input type="text" name="name" value="{{ $pelanggan->name }}" class="form-control" required>
+                            <input type="text" name="name" value="{{ old('name', $pelanggan->name) }}" class="form-control @error('name') is-invalid @enderror" required>
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group col-md-6">
                             <label for="email">Email</label>
-                            <input type="email" name="email" value="{{ $pelanggan->email }}" class="form-control" required>
+                            <input type="email" name="email" value="{{ old('email', $pelanggan->email) }}" class="form-control @error('email') is-invalid @enderror" required>
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group col-md-6">
                             <label for="phone">Telepon</label>
-                            <input type="text" name="phone" value="{{ $pelanggan->phone }}" class="form-control" required>
+                            <input type="tel" name="phone" value="{{ old('phone', $pelanggan->phone) }}" class="form-control @error('phone') is-invalid @enderror" required>
+                            @error('phone')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group col-md-6">
                             <label for="address">Alamat</label>
-                            <input type="text" name="address" value="{{ $pelanggan->address }}" class="form-control" required>
+                            <input type="text" name="address" value="{{ old('address', $pelanggan->address) }}" class="form-control @error('address') is-invalid @enderror" required>
+                            @error('address')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group col-md-6">
                             <label for="status">Status</label>
-                            <select name="status" class="form-control" required>
+                            <select name="status" class="form-control @error('status') is-invalid @enderror" required>
                                 <option value="">Pilih Status</option>
-                                <option value="1" {{ $pelanggan->status == 1 ? 'selected' : '' }}>Active</option>
-                                <option value="0" {{ $pelanggan->status == 0 ? 'selected' : '' }}>Inactive</option>
+                                <option value="1" {{ (old('status', $pelanggan->status) == '1') ? 'selected' : '' }}>Active</option>
+                                <option value="0" {{ (old('status', $pelanggan->status) == '0') ? 'selected' : '' }}>Inactive</option>
                             </select>
+                            @error('status')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                 </div>

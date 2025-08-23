@@ -108,6 +108,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::group(['prefix' => 'Status', 'as' => 'Status.'], function () {
                 Route::post('data', [StatusController::class, 'data'])->name('data');
                 Route::post('{status}/update-status', [StatusController::class, 'updateStatus'])->name('updateStatus');
+                Route::get('{status}/preview', [StatusController::class, 'preview'])->name('preview');
             });
 
             Route::resource('Nota', NotaController::class)->only('index');

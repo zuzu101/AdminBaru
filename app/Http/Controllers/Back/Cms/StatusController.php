@@ -97,4 +97,10 @@ class StatusController extends Controller
 
         return response()->json(['message' => "Status berhasil diperbarui"], 200);
     }
+
+    public function preview(Status $status)
+    {
+        $status->load('pelanggan');
+        return view('back.cms.Status.preview', compact('status'));
+    }
 }

@@ -108,6 +108,7 @@
                             <th>Total Service</th>
                             <th>Selesai</th>
                             <th>Revenue</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -158,7 +159,8 @@ $(function() {
             {data: 'week_period', name: 'week_period'},
             {data: 'total_services', name: 'total_services'},
             {data: 'completed', name: 'completed'},
-            {data: 'revenue', name: 'revenue'}
+            {data: 'revenue', name: 'revenue'},
+            {data: 'action', name: 'action', orderable: false, searchable: false}
         ],
         order: [[0, 'asc']] // Order by week period ascending
     });

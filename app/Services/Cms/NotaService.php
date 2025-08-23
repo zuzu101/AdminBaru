@@ -28,7 +28,34 @@ class NotaService
             $nestedData['pelanggan_name'] = $item->pelanggan ? $item->pelanggan->name : 'No Customer';
             $nestedData['device_info'] = $item->brand . ' ' . $item->model;
             $nestedData['reported_issue'] = $item->reported_issue;
-            $nestedData['status'] = $item->status ?: 'Perangkat Baru Masuk';
+            
+            // Add colored status badge
+            $currentStatus = $item->status ?: 'Perangkat Baru Masuk';
+            $statusClass = '';
+            switch($currentStatus) {
+                case 'Selesai':
+                    $statusClass = 'badge bg-success';
+                    break;
+                case 'Sedang Diperbaiki':
+                    $statusClass = 'badge bg-warning';
+                    break;
+                case 'Perangkat Baru Masuk':
+                    $statusClass = 'badge bg-secondary';
+                    break;
+                case 'Menunggu Spare Part':
+                    $statusClass = 'badge bg-secondary';
+                    break;
+                case 'Siap Diambil':
+                    $statusClass = 'badge bg-primary';
+                    break;
+                case 'Sudah Diambil':
+                    $statusClass = 'badge bg-dark';
+                    break;
+                default:
+                    $statusClass = 'badge bg-secondary';
+            }
+            $nestedData['status'] = '<span class="' . $statusClass . '">' . $currentStatus . '</span>';
+            
             $nestedData['price_formatted'] = $item->price ? 'Rp ' . number_format($item->price, 0, ',', '.') : '-';
             $nestedData['created_date'] = $item->created_at ? $item->created_at->format('d/m/Y') : '-';
             $nestedData['complete_date'] = $item->complete_in ? $item->complete_in->format('d/m/Y') : '-';
@@ -42,7 +69,7 @@ class NotaService
             $data[] = $nestedData;
         }
 
-        return DataTables::of($data)->rawColumns(["actions"])->toJson();
+        return DataTables::of($data)->rawColumns(["actions", "status"])->toJson();
     }
 
     public function getNotaData($id)

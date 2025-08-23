@@ -24,11 +24,26 @@ class PelangganRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'phone' => 'required',
-            'email' => 'required',
-            'address' => 'required',
-            'status' => 'required',
+            'name' => 'required|string|max:255',
+            'phone' => 'required|numeric|digits_between:10,15',
+            'email' => 'required|email|max:255',
+            'address' => 'required|string|max:500',
+            'status' => 'required|in:0,1',
+        ];
+    }
+
+    /**
+     * Get custom error messages for validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'phone.numeric' => 'Nomor telepon hanya boleh berisi angka.',
+            'phone.digits_between' => 'Nomor telepon harus antara 10-15 digit.',
+            'email.email' => 'Format email tidak valid.',
+            'status.in' => 'Status harus Active atau Inactive.',
         ];
     }
 }

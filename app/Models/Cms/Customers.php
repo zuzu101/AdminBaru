@@ -5,11 +5,11 @@ namespace App\Models\Cms;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class pelanggan extends Model
+class Customers extends Model
 {
     use HasFactory;
 
-    protected $table = 'pelanggan';
+    protected $table = 'customers';
     protected $guarded = ['id'];
     
     // Tambahkan fillable untuk field bahasa Inggris dan Indonesia
@@ -24,6 +24,6 @@ class pelanggan extends Model
     // Relationship - hasOne device repair
     public function deviceRepair()
     {
-        return $this->hasOne(\App\Models\Cms\DeviceRepair::class, 'pelanggan_id');
+        return $this->hasOne(\App\Models\Cms\DeviceRepair::class, 'customer_id');
     }
 }

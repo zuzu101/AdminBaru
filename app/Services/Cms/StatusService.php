@@ -67,17 +67,53 @@ class StatusService
             $nestedData['reported_issue'] = $item->reported_issue;
             $nestedData['serial_number'] = $item->serial_number;
             $nestedData['technician_note'] = $item->technician_note ?: '-';
-            $nestedData['status'] = $item->status ?: 'Perangkat Baru Masuk';
-            $nestedData['actions'] = '
-                <div class="btn-group">
-                    <a href="javascript:void(0)" onclick="updateStatus(' . $item->id . ', \'Sedang Diperbaiki\')" class="btn btn-outline-info"><i class="fa fa-cog"></i></a>
-                    <a href="javascript:void(0)" onclick="updateStatus(' . $item->id . ', \'Selesai\')" class="btn btn-outline-success"><i class="fa fa-check"></i></a>
-                </div>
-            ';
+            
+            $currentStatus = $item->status ?: 'Perangkat Baru Masuk';
+            
+            // Add colored status badge
+            $statusClass = '';
+            switch($currentStatus) {
+                case 'Selesai':
+                    $statusClass = 'badge bg-success';
+                    break;
+                case 'Sedang Diperbaiki':
+                    $statusClass = 'badge bg-warning';
+                    break;
+                case 'Perangkat Baru Masuk':
+                    $statusClass = 'badge bg-secondary';
+                    break;
+                default:
+                    $statusClass = 'badge bg-secondary';
+            }
+            $nestedData['status'] = '<span class="' . $statusClass . '">' . $currentStatus . '</span>';
+            
+            // tombol status
+            $actionButton = '';
+            if ($currentStatus == 'Perangkat Baru Masuk') {
+                $actionButton = '<div class="text-center">
+                    <a href="javascript:void(0)" onclick="updateStatus(' . $item->id . ', \'Sedang Diperbaiki\')" class="btn btn-outline-warning btn-sm" title="Mulai Perbaikan">
+                        <i class="fa fa-cog"></i>
+                    </a>
+                </div>';
+            } elseif ($currentStatus == 'Sedang Diperbaiki') {
+                $actionButton = '<div class="text-center">
+                    <a href="javascript:void(0)" onclick="updateStatus(' . $item->id . ', \'Selesai\')" class="btn btn-outline-success btn-sm" title="Selesaikan">
+                        <i class="fa fa-check"></i>
+                    </a>
+                </div>';
+            } elseif ($currentStatus == 'Selesai') {
+                $actionButton = '<div class="text-center">
+                    <a href="' . route('admin.cms.Status.preview', $item->id) . '" class="btn btn-outline-info btn-sm" title="Preview Detail">
+                        <i class="fa fa-eye"></i>
+                    </a>
+                </div>';
+            }
+            
+            $nestedData['actions'] = $actionButton;
 
             $data[] = $nestedData;
         }
 
-        return DataTables::of($data)->rawColumns(["actions"])->toJson();
+        return DataTables::of($data)->rawColumns(["actions", "status"])->toJson();
     }
 }

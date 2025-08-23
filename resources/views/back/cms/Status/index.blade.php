@@ -21,7 +21,7 @@
         <div class="float-right">
             <div class="btn-group">
                 <button type="button" class="btn btn-danger fw-bold" onclick="filterStatus('Perangkat Baru Masuk')">Baru</button>
-                <button type="button" class="btn btn-primary fw-bold" onclick="filterStatus('Sedang Diperbaiki')">Dikerjakan</button>
+                <button type="button" class="btn btn-warning fw-bold text-white" onclick="filterStatus('Sedang Diperbaiki')">Dikerjakan</button>
                 <button type="button" class="btn btn-success fw-bold" onclick="filterStatus('Selesai')">Selesai</button>
                 <button type="button" class="btn btn-secondary fw-bold" onclick="filterStatus('all')">Semua</button>
             </div>
@@ -79,7 +79,7 @@
                 { data: 'serial_number', name: 'serial_number', className: "align-middle" },
                 { data: 'technician_note', name: 'technician_note', className: "align-middle" },
                 { data: 'status', name: 'status', className: "align-middle" },
-                { data: 'actions', name: 'actions', className: "align-middle", sortable: false, searchable: false }
+                { data: 'actions', name: 'actions', className: "text-center align-middle", sortable: false, searchable: false }
             ]
         });
     });

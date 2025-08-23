@@ -15,6 +15,7 @@ class DeviceRepair extends Model
     protected $fillable = [
         'nota_number',
         'pelanggan_id',
+        'customer_id', // Added customer_id
         'brand',
         'model', 
         'reported_issue',
@@ -37,5 +38,11 @@ class DeviceRepair extends Model
     public function pelanggan()
     {
         return $this->belongsTo(\App\Models\Cms\Pelanggan::class, 'pelanggan_id');
+    }
+    
+    // Relationship with Customer
+    public function customer()
+    {
+        return $this->belongsTo(\App\Models\Cms\Customer::class, 'customer_id');
     }
 }
